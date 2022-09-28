@@ -94,6 +94,7 @@ def ObtainResult():
     print(ipClass)
     net = ipaddress.IPv4Network(entryIp.get() + "/"+ entryMask.get(), False)
     
+    print(networkAdressCheck(net, entryOtherNetwork.get()))
     
     if(isClassFull.get() == 1):
         info = getInfoByClass(ipClass)
@@ -103,6 +104,11 @@ def ObtainResult():
         if(entryMask.get() != maskFromClass[ipClass]):
             print("You are in a subnet !")
         
+def networkAdressCheck(network, netAdress):
+    print(network.network_address)
+    print(netAdress)
+    if (str(network.network_address) == netAdress): return True
+    else: return False
 
 #####################################################
 # END FUNCTION
