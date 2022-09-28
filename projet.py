@@ -90,19 +90,19 @@ def getBroadcast(IpAdress, mask):
     return result
 
 def ObtainResult():
-    ip = strIpAndMaskToTab(entryIp.get())
+    ip = strIpAndMaskToTab(IP1.get())
     ipClass = findClassOfIp(ip)
     print(ipClass)
-    net = ipaddress.IPv4Network(entryIp.get() + "/"+ entryMask.get(), False)
+    net = ipaddress.IPv4Network(IP1.get() + "/"+ Mask1.get(), False)
     
-    print(networkAdressCheck(net, entryOtherNetwork.get()))
+    print(networkAdressCheck(net, Network1.get()))
     
     if(isClassFull.get() == 1):
         info = getInfoByClass(ipClass)
         print(info)
         print("Network : " +str(net.network_address) + "///Broadcast : " + str(net.broadcast_address))
         print("SubNetwork : " +str(net.network_address) + "///SubBroadcast : " + str(net.broadcast_address))
-        if(entryMask.get() != maskFromClass[ipClass]):
+        if(Mask1.get() != maskFromClass[ipClass]):
             print("You are in a subnet !")
         
 def networkAdressCheck(network, netAdress):
@@ -136,22 +136,22 @@ frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5
 
 # First IP
 Label(frameLeft, text="IPV4").pack()
-entryIp = Entry(frameLeft)
-entryIp.pack()
+IP1 = Entry(frameLeft)
+IP1.pack()
+
+# First Mask
+Label(frameLeft, text="Masque").pack()
+Mask1 = Entry(frameLeft)
+Mask1.pack()
+
+# Network IP
+Label(frameLeft, text="IP Reseau").pack()
+Network1 = Entry(frameLeft)
+Network1.pack()
 
 #Checkbox for classfull 
 isClassFull = IntVar()
 Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
-
-# First Mask
-Label(frameLeft, text="Masque").pack()
-entryMask = Entry(frameLeft)
-entryMask.pack()
-
-# Network IP
-Label(frameLeft, text="IP Reseau").pack()
-entryOtherNetwork = Entry(frameLeft)
-entryOtherNetwork.pack()
 
 #Obtain result
 button = Button(frameLeft, text="display IP", command=ObtainResult).pack()
