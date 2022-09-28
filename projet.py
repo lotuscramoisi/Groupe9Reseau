@@ -122,6 +122,7 @@ windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
 root = Tk()
+root.title("Système et réseau")
 s = ttk.Style()
 print(s.theme_names())
 print(s.theme_use())
@@ -138,28 +139,29 @@ frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5
 #----------------------------------------------
 #-----------------LeftFrame--------------------
 #----------------------------------------------
-
+frameLeft.rowconfigure(2)
+frameLeft.columnconfigure(2)
 # First IP
-Label(frameLeft, text="IPV4").grid(row=1,column=1)
+Label(frameLeft, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
 IP1 = Entry(frameLeft)
-IP1.grid(row=1,column=2)
+IP1.grid(row=0, column=1, padx=10, pady=10)
 
 # First Mask
-Label(frameLeft, text="Masque").grid(row=2,column=1)
+Label(frameLeft, text="Masque").grid(row=1,column=0, padx=10, pady=10)
 Mask1 = Entry(frameLeft)
-Mask1.grid(row=2,column=2)
+Mask1.grid(row=1,column=1, padx=10, pady=10)
 
 # Network IP
-Label(frameLeft, text="IP Reseau").grid(row=3,column=1)
+Label(frameLeft, text="IP Reseau").grid(row=2,column=0, padx=10, pady=10)
 Network1 = Entry(frameLeft)
-Network1.grid(row=3,column=2)
+Network1.grid(row=2,column=1, padx=10, pady=10)
 
 #Checkbox for classfull 
 isClassFull = IntVar()
-Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).grid(row=4,column=1)
+Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).grid(row=3,column=0, padx=10, pady=10)
 
 #Obtain result
-button = Button(frameLeft, text="display IP", command=ObtainResult).grid(row=5,column=1)
+button = Button(frameLeft, text="Display IP", command=ObtainResult).grid(row=4,columnspan=2, padx=10, pady=10)
 
 
 #----------------------------------------------
