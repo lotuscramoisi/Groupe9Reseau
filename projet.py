@@ -134,26 +134,26 @@ frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5
 #-----------------LeftFrame--------------------
 #----------------------------------------------
 
-# Creating something to get IP
+# First IP
 Label(frameLeft, text="IPV4").pack()
 entryIp = Entry(frameLeft)
 entryIp.pack()
 
-#grating checkbox 
+#Checkbox for classfull 
 isClassFull = IntVar()
 Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
 
-# Creating something to get IP
+# First Mask
 Label(frameLeft, text="Masque").pack()
 entryMask = Entry(frameLeft)
 entryMask.pack()
 
-# Creating something to get IP
+# Network IP
 Label(frameLeft, text="IP Reseau").pack()
 entryOtherNetwork = Entry(frameLeft)
 entryOtherNetwork.pack()
 
-#Creating Result button
+#Obtain result
 button = Button(frameLeft, text="display IP", command=ObtainResult).pack()
 
 
