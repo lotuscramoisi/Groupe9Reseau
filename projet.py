@@ -1,5 +1,6 @@
 #Groupe 9
 
+from cgitb import text
 from turtle import left
 import pandas as pd
 import re
@@ -95,6 +96,7 @@ def ObtainResult():
     ip = strIpAndMaskToTab(IP1.get())
     ipClass = findClassOfIp(ip)
     print(ipClass)
+    classResult.config(text= "Class: "+ ipClass)
     net = ipaddress.IPv4Network(IP1.get() + "/"+ Mask1.get(), False)
     
     print(networkAdressCheck(net, Network1.get()))
@@ -102,6 +104,7 @@ def ObtainResult():
     if(isClassFull.get() == 1):
         info = getInfoByClass(ipClass)
         print(info)
+        numberOfNetworkResult.config(text= "Number of network: "+ str(info["nbHost"]))
         print("Network : " +str(net.network_address) + "///Broadcast : " + str(net.broadcast_address))
         print("SubNetwork : " +str(net.network_address) + "///SubBroadcast : " + str(net.broadcast_address))
         if(Mask1.get() != maskFromClass[ipClass]):
@@ -136,41 +139,52 @@ frameLeft = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 frameCenter = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 
+
 #----------------------------------------------
 #-----------------LeftFrame--------------------
 #----------------------------------------------
-frameLeft.rowconfigure(2)
-frameLeft.columnconfigure(2)
+#SubFrame
+frameLeftCenter = Frame(frameLeft)
+
 # First IP
-Label(frameLeft, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
-IP1 = Entry(frameLeft)
+Label(frameLeftCenter, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
+IP1 = Entry(frameLeftCenter)
 IP1.grid(row=0, column=1, padx=10, pady=10)
 
 # First Mask
-Label(frameLeft, text="Masque").grid(row=1,column=0, padx=10, pady=10)
-Mask1 = Entry(frameLeft)
+Label(frameLeftCenter, text="Masque").grid(row=1,column=0, padx=10, pady=10)
+Mask1 = Entry(frameLeftCenter)
 Mask1.grid(row=1,column=1, padx=10, pady=10)
 
 # Network IP
-Label(frameLeft, text="IP Reseau").grid(row=2,column=0, padx=10, pady=10)
-Network1 = Entry(frameLeft)
+Label(frameLeftCenter, text="IP Reseau").grid(row=2,column=0, padx=10, pady=10)
+Network1 = Entry(frameLeftCenter)
 Network1.grid(row=2,column=1, padx=10, pady=10)
 
 #Checkbox for classfull 
 isClassFull = IntVar()
-Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).grid(row=3,column=0, padx=10, pady=10)
+Checkbutton(frameLeftCenter, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).grid(row=3,column=0, padx=10, pady=10)
 
 #Obtain result
-button = Button(frameLeft, text="Display IP", command=ObtainResult).grid(row=4,columnspan=2, padx=10, pady=10)
+button = Button(frameLeftCenter, text="Display IP", command=ObtainResult).grid(row=4,columnspan=2, padx=10, pady=10)
 
-
+frameLeftCenter.pack()
 #----------------------------------------------
 #----------------CenterFrame-------------------
 #----------------------------------------------
+#Subframe
+frameCenterCenter = Frame(frameCenter)
+
+# Exercise 1
+# Class
+classResult = Label(frameCenterCenter, text="Class: ")
+classResult.grid(row=0,column=0, pady=10, padx=10, sticky="w")
+# Number of network
+numberOfNetworkResult = Label(frameCenterCenter, text="Number of network: ")
+numberOfNetworkResult.grid(row=1,column=0, pady=10, padx=10, sticky="w")
 
 
-
-
+frameCenterCenter.pack()
 #----------------------------------------------
 #-----------------RightFrame--------------------
 #----------------------------------------------
