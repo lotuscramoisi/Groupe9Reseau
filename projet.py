@@ -115,17 +115,24 @@ def networkAdressCheck(network, netAdress):
 # END FUNCTION
 #####################################################
 
+#ToDO pas nécessaire ?
 windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
 root = Tk()
 root.geometry("1280x720")
 
-# Creating left frame
+#MainFrame
 mainFrame = Frame(root)
+
+# Creating side by side frames
 frameLeft = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 frameCenter = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
+
+#----------------------------------------------
+#-----------------LeftFrame--------------------
+#----------------------------------------------
 
 # Creating something to get IP
 Label(frameLeft, text="IPV4").pack()
@@ -142,12 +149,26 @@ entryMask = Entry(frameLeft)
 entryMask.pack()
 
 # Creating something to get IP
-Label(frameCenter, text="IP Reseau").pack()
-entryOtherNetwork = Entry(frameCenter)
+Label(frameLeft, text="IP Reseau").pack()
+entryOtherNetwork = Entry(frameLeft)
 entryOtherNetwork.pack()
 
 #Creating Result button
-button = Button(frameRight, text="display IP", command=ObtainResult).pack()
+button = Button(frameLeft, text="display IP", command=ObtainResult).pack()
+
+
+#----------------------------------------------
+#----------------CenterFrame-------------------
+#----------------------------------------------
+
+
+
+
+#----------------------------------------------
+#-----------------RightFrame--------------------
+#----------------------------------------------
+
+
 
 
 #Packing frames
