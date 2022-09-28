@@ -1,10 +1,12 @@
 #Groupe 9
 
+from turtle import left
 import pandas as pd
 import re
 import ipaddress
 from tkinter import *
 import tkinter as tk
+import tkinter.ttk as ttk
 from ctypes import windll
 #####################################################
 # CONST
@@ -120,6 +122,9 @@ windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
 root = Tk()
+s = ttk.Style()
+print(s.theme_names())
+print(s.theme_use())
 root.geometry("1280x720")
 
 #MainFrame
@@ -135,26 +140,26 @@ frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5
 #----------------------------------------------
 
 # First IP
-Label(frameLeft, text="IPV4").pack()
+Label(frameLeft, text="IPV4").grid(row=1,column=1)
 IP1 = Entry(frameLeft)
-IP1.pack()
+IP1.grid(row=1,column=2)
 
 # First Mask
-Label(frameLeft, text="Masque").pack()
+Label(frameLeft, text="Masque").grid(row=2,column=1)
 Mask1 = Entry(frameLeft)
-Mask1.pack()
+Mask1.grid(row=2,column=2)
 
 # Network IP
-Label(frameLeft, text="IP Reseau").pack()
+Label(frameLeft, text="IP Reseau").grid(row=3,column=1)
 Network1 = Entry(frameLeft)
-Network1.pack()
+Network1.grid(row=3,column=2)
 
 #Checkbox for classfull 
 isClassFull = IntVar()
-Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
+Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).grid(row=4,column=1)
 
 #Obtain result
-button = Button(frameLeft, text="display IP", command=ObtainResult).pack()
+button = Button(frameLeft, text="display IP", command=ObtainResult).grid(row=5,column=1)
 
 
 #----------------------------------------------
