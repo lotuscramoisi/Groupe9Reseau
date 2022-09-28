@@ -3,6 +3,7 @@
 import pandas as pd
 import re
 import ipaddress
+from tkinter import *
 import tkinter as tk
 from ctypes import windll
 #####################################################
@@ -117,41 +118,43 @@ def networkAdressCheck(network, netAdress):
 windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
-root = tk.Tk()
+root = Tk()
 root.geometry("512x512")
 
 # Creating left frame
-frameLeft = tk.Frame(root, highlightbackground="blue", highlightthickness=1)
-frameCenter = tk.Frame(root, highlightbackground="red", highlightthickness=1)
-frameRight = tk.Frame(root, highlightbackground="black", highlightthickness=1)
+mainFrame = Frame(root, highlightbackground="yellow", highlightthickness=6)
+frameLeft = Frame(mainFrame, highlightbackground="blue", highlightthickness=1)
+frameCenter = Frame(mainFrame, highlightbackground="red", highlightthickness=1)
+frameRight = Frame(mainFrame, highlightbackground="black", highlightthickness=1)
 
 # Creating something to get IP
-tk.Label(frameLeft, text="IPV4").pack()
-entryIp = tk.Entry(frameLeft)
+Label(frameLeft, text="IPV4").pack()
+entryIp = Entry(frameLeft)
 entryIp.pack()
 
 #grating checkbox 
-isClassFull = tk.IntVar()
-tk.Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
+isClassFull = IntVar()
+Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
 
 # Creating something to get IP
-tk.Label(frameLeft, text="Masque").pack()
-entryMask = tk.Entry(frameLeft)
+Label(frameLeft, text="Masque").pack()
+entryMask = Entry(frameLeft)
 entryMask.pack()
 
 # Creating something to get IP
-tk.Label(frameCenter, text="IP Reseau").pack()
-entryOtherNetwork = tk.Entry(frameCenter)
+Label(frameCenter, text="IP Reseau").pack()
+entryOtherNetwork = Entry(frameCenter)
 entryOtherNetwork.pack()
 
 #Creating Result button
-button = tk.Button(frameRight, text="display IP", command=ObtainResult).pack()
+button = Button(frameRight, text="display IP", command=ObtainResult).pack()
 
 
 #Packing frames
 frameLeft.pack()
 frameCenter.pack()
 frameRight.pack()
+mainFrame.pack()
 
 #launching the things
 root.mainloop()
