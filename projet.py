@@ -119,13 +119,13 @@ windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
 root = Tk()
-root.geometry("512x512")
+root.geometry("1280x720")
 
 # Creating left frame
-mainFrame = Frame(root, highlightbackground="yellow", highlightthickness=6)
-frameLeft = Frame(mainFrame, highlightbackground="blue", highlightthickness=1)
-frameCenter = Frame(mainFrame, highlightbackground="red", highlightthickness=1)
-frameRight = Frame(mainFrame, highlightbackground="black", highlightthickness=1)
+mainFrame = Frame(root)
+frameLeft = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
+frameCenter = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
+frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
 
 # Creating something to get IP
 Label(frameLeft, text="IPV4").pack()
@@ -151,10 +151,11 @@ button = Button(frameRight, text="display IP", command=ObtainResult).pack()
 
 
 #Packing frames
-frameLeft.pack()
-frameCenter.pack()
-frameRight.pack()
-mainFrame.pack()
+frameLeft.pack(side=LEFT, fill=BOTH, expand=True, padx=10, pady=10)
+frameRight.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
+frameCenter.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
+
+mainFrame.pack(fill=BOTH, expand=True, padx=5, pady=5)
 
 #launching the things
 root.mainloop()
