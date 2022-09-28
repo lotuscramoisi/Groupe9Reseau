@@ -120,29 +120,38 @@ windll.shcore.SetProcessDpiAwareness(1)
 root = tk.Tk()
 root.geometry("512x512")
 
+# Creating left frame
+frameLeft = tk.Frame(root, highlightbackground="blue", highlightthickness=1)
+frameCenter = tk.Frame(root, highlightbackground="red", highlightthickness=1)
+frameRight = tk.Frame(root, highlightbackground="black", highlightthickness=1)
+
 # Creating something to get IP
-tk.Label(root, text="IPV4").pack()
-entryIp = tk.Entry(root)
+tk.Label(frameLeft, text="IPV4").pack()
+entryIp = tk.Entry(frameLeft)
 entryIp.pack()
 
 #grating checkbox 
 isClassFull = tk.IntVar()
-tk.Checkbutton(root, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
+tk.Checkbutton(frameLeft, text="Classfull", variable=isClassFull, onvalue=1, offvalue=0).pack()
 
 # Creating something to get IP
-tk.Label(root, text="Masque").pack()
-entryMask = tk.Entry(root)
+tk.Label(frameLeft, text="Masque").pack()
+entryMask = tk.Entry(frameLeft)
 entryMask.pack()
 
 # Creating something to get IP
-tk.Label(root, text="IP Reseau").pack()
-entryOtherNetwork = tk.Entry(root)
+tk.Label(frameCenter, text="IP Reseau").pack()
+entryOtherNetwork = tk.Entry(frameCenter)
 entryOtherNetwork.pack()
 
 #Creating Result button
-button = tk.Button(root, text="display IP", command=ObtainResult).pack()
+button = tk.Button(frameRight, text="display IP", command=ObtainResult).pack()
 
 
+#Packing frames
+frameLeft.pack()
+frameCenter.pack()
+frameRight.pack()
 
 #launching the things
 root.mainloop()
