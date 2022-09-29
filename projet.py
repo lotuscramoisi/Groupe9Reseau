@@ -28,22 +28,55 @@ maskFromClass = {
 
 
 def ObtainResult():
+    #### INTERFACE RESET
+    classResult.config(text= "Class: ")
+    numberOfNetworkResult.config( text="Number of network: ")
+    numberOfHostResult.config( text="Number of host: ")
+    networkAdressResult.config( text="Network adress: ")
+    broadcastAdressResult.config( text="Broadcast adress: ")
+    subnetworkAdressResult.config( text="")
+    isSecondIpInFirstNetwork.config( text="")
+    exercice4Result1.config( text="")
+    exercice4Result2.config( text="")
+    ###
     ip = strIpAndMaskToTab(IP1.get())
-    ipClass = findClassOfIp(ip)
-    print(ipClass)
-    classResult.config(text= "Class: "+ ipClass)
+    # Network creation with user mask
     net = ipaddress.IPv4Network(IP1.get() + "/"+ Mask1.get(), False)
-    
-    print(networkAdressCheck(net, Network1.get()))
-    
+
+    # Tell user if the ip/mask combination is in the network he entered
+    if(networkAdressCheck(net, Network1.get())): isSecondIpInFirstNetwork.config(text="l'ip " + IP1.get() + " appartient au reseau " + Network1.get())
+
     if(isClassFull.get() == 1):
+        # class determination
+        ipClass = findClassOfIp(ip)
+        classResult.config(text= "Class: "+ ipClass)
+        
+
+        # Network creation with the mask of the class
+        net = ipaddress.IPv4Network(IP1.get() + "/"+ maskFromClass[ipClass], False)
+
         info = getInfoByClass(ipClass)
         print(info)
-        numberOfNetworkResult.config(text= "Number of network: "+ str(info["nbHost"]))
-        print("Network : " +str(net.network_address) + "///Broadcast : " + str(net.broadcast_address))
-        print("SubNetwork : " +str(net.network_address) + "///SubBroadcast : " + str(net.broadcast_address))
+        # information display
+        numberOfNetworkResult.config(text= "Number of network: "+ str(info["nbNetwork"]))
+        numberOfHostResult.config(text= "Number of host: "+ str(info["nbHost"]))
+        networkAdressResult.config(text= "Network address: "+ str(str(net.network_address)))
+        broadcastAdressResult.config(text= "Broadcast address: "+ str(str(net.broadcast_address)))
+
+
+        # if it's a subnet
         if(Mask1.get() != maskFromClass[ipClass]):
-            print("You are in a subnet !")
+            # Subnet definition
+            net = ipaddress.IPv4Network(IP1.get() + "/"+ Mask1.get(), False)
+            subnetworkAdressResult.config(text= "Subnetwork adress: " + str(net.network_address))
+        else:
+            subnetworkAdressResult.config(text= "")
+
+    if(len(IP2.get()) >0 and len(Mask2.get()) > 0):
+        exercice4Tab = crossNetworkCheck(IP1.get(), Mask1.get(), IP2.get(), Mask2.get())
+        exercice4Result1.config( text=exercice4Tab[0])
+        exercice4Result2.config( text=exercice4Tab[1])
+        
 
 def callback():
     print("Modify")
@@ -102,6 +135,39 @@ Checkbutton(frameLeftCenter, text="Classfull", variable=isClassFull, onvalue=1, 
 #Obtain result
 button = Button(frameLeftCenter, text="Display IP", command=ObtainResult).grid(row=4,columnspan=2, padx=10, pady=10)
 
+
+# Exercise 1
+# Class
+classResult = Label(frameLeftCenter, text="Class: ")
+classResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+# Number of network
+numberOfNetworkResult = Label(frameLeftCenter, text="Number of network: ")
+numberOfNetworkResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
+# Number of Host
+numberOfHostResult = Label(frameLeftCenter, text="Number of host: ")
+numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
+
+# Exercice 2
+# Network adress
+networkAdressResult = Label(frameLeftCenter, text="Network adress: ")
+networkAdressResult.grid(row=8,column=0, pady=10, padx=10, sticky="w")
+
+# Broadcast adress
+broadcastAdressResult = Label(frameLeftCenter, text="Broadcast adress: ")
+broadcastAdressResult.grid(row=9,column=0, pady=10, padx=10, sticky="w")
+
+# Subnetwork adress
+subnetworkAdressResult = Label(frameLeftCenter, text="")
+subnetworkAdressResult.grid(row=10,column=0, pady=10, padx=10, sticky="w")
+
+# Exercice 3
+isSecondIpInFirstNetwork = Label(frameLeftCenter, text="")
+isSecondIpInFirstNetwork.grid(row=11,column=0, pady=10, padx=10, sticky="w")
+
+
+
+
+
 frameLeftCenter.pack()
 #----------------------------------------------
 #----------------CenterFrame-------------------
@@ -109,14 +175,22 @@ frameLeftCenter.pack()
 #Subframe
 frameCenterCenter = Frame(frameCenter)
 
-# Exercise 1
-# Class
-classResult = Label(frameCenterCenter, text="Class: ")
-classResult.grid(row=0,column=0, pady=10, padx=10, sticky="w")
-# Number of network
-numberOfNetworkResult = Label(frameCenterCenter, text="Number of network: ")
-numberOfNetworkResult.grid(row=1,column=0, pady=10, padx=10, sticky="w")
+# Exercice 4
+# Second IP
+Label(frameCenterCenter, text="Second IPV4").grid(row=0,column=0, padx=10, pady=10)
+IP2 = Entry(frameCenterCenter)
+IP2.grid(row=0, column=1, padx=10, pady=10)
 
+# Second Mask
+Label(frameCenterCenter, text="Second Mask").grid(row=1,column=0, padx=10, pady=10)
+Mask2 = Entry(frameCenterCenter)
+Mask2.grid(row=1,column=1, padx=10, pady=10)
+
+# result Exercice 4
+exercice4Result1 = Label(frameCenterCenter, text="")
+exercice4Result1.grid(row=3,column=0, pady=10, padx=10, sticky="w")
+exercice4Result2 = Label(frameCenterCenter, text="")
+exercice4Result2.grid(row=4,column=0, pady=10, padx=10, sticky="w")
 
 frameCenterCenter.pack()
 #----------------------------------------------
