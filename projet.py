@@ -45,7 +45,9 @@ def ObtainResult():
         print("SubNetwork : " +str(net.network_address) + "///SubBroadcast : " + str(net.broadcast_address))
         if(Mask1.get() != maskFromClass[ipClass]):
             print("You are in a subnet !")
-        
+
+def callback():
+    print("Modify")
 
 
 #####################################################
@@ -81,6 +83,7 @@ frameLeftCenter = Frame(frameLeft)
 # First IP
 Label(frameLeftCenter, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
 IP1 = Entry(frameLeftCenter)
+IP1.bind("KeyPress", callback)
 IP1.grid(row=0, column=1, padx=10, pady=10)
 
 # First Mask
