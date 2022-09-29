@@ -78,9 +78,16 @@ def ObtainResult():
         exercice4Result2.config( text=exercice4Tab[1])
         
 
-def callback():
-    print("Modify")
+def callbackIPV4(event):
+    try:
+        net = ipaddress.IPv4Network(IP1.get())
+        IP1.config({"background": "White"})
+    except ValueError:
+        print("Incorrect Ip")
+        IP1.config({"background": "Gray"})
 
+def callbackMask(event):
+   print("Mask")
 
 #####################################################
 # END FUNCTION
@@ -114,18 +121,19 @@ frameLeftCenter = Frame(frameLeft)
 
 # First IP
 Label(frameLeftCenter, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
-IP1 = Entry(frameLeftCenter)
-IP1.bind("KeyPress", callback)
+IP1 = Entry(frameLeftCenter, background="Gray")
+IP1.bind("<KeyRelease>", callbackIPV4) 
 IP1.grid(row=0, column=1, padx=10, pady=10)
 
 # First Mask
 Label(frameLeftCenter, text="Masque").grid(row=1,column=0, padx=10, pady=10)
-Mask1 = Entry(frameLeftCenter)
+Mask1 = Entry(frameLeftCenter, background="Gray")
+Mask1.bind("<KeyRelease>", callbackMask) 
 Mask1.grid(row=1,column=1, padx=10, pady=10)
 
 # Network IP
 Label(frameLeftCenter, text="IP Reseau").grid(row=2,column=0, padx=10, pady=10)
-Network1 = Entry(frameLeftCenter)
+Network1 = Entry(frameLeftCenter, background="Gray")
 Network1.grid(row=2,column=1, padx=10, pady=10)
 
 #Checkbox for classfull 
@@ -163,8 +171,6 @@ subnetworkAdressResult.grid(row=10,column=0, pady=10, padx=10, sticky="w")
 # Exercice 3
 isSecondIpInFirstNetwork = Label(frameLeftCenter, text="")
 isSecondIpInFirstNetwork.grid(row=11,column=0, pady=10, padx=10, sticky="w")
-
-
 
 
 
