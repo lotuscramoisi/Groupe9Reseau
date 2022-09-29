@@ -1,5 +1,6 @@
-
-
+import re
+import ipaddress
+from unittest import result
 
 def validiteIP(ip):
     regex = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
@@ -73,3 +74,24 @@ def networkAdressCheck(network, netAdress):
     print(netAdress)
     if (str(network.network_address) == netAdress): return True
     else: return False
+    
+def crossNetworkCheck(ip1, mask1, ip2, mask2):
+    #intialisation des resultat 
+    result = []
+    #creation des 2 reseau
+    net1 = ipaddress.IPv4Network(ip1 + "/" + mask1, False)
+    net2 = ipaddress.IPv4Network(ip2 + "/" + mask2, False)
+    
+    if(ipaddress.ip_address(ip2) in net1):
+        result.append("le reseau " + ip1 + "/" + mask1 + " considere que l'ip " + ip2 + " est dans son reseau")
+    else:
+        result.append("le reseau " + ip1 + "/" + mask1 + " considere que l'ip " +  ip2 + " n'est pas dans son reseau")
+    
+    if(ipaddress.ip_address(ip1) in net2):
+        result.append("le reseau " + ip2 + "/" + mask2 + " considere que l'ip " +  ip1 +  " est dans son reseau")
+    else:
+        result.append("le reseau " + ip2 + "/" + mask2 + " considere que l'ip " +  ip1 +  " n'est pas dans son reseau")
+    
+    return result
+    
+print(crossNetworkCheck("192.168.1.4", "255.255.255.0", "192.168.2.3", "255.255.0.0"))

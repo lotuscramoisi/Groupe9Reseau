@@ -3,7 +3,6 @@
 from cgitb import text
 from turtle import left
 import pandas as pd
-import re
 import ipaddress
 from tkinter import *
 import tkinter as tk
