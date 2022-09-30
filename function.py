@@ -2,6 +2,7 @@ import re
 import ipaddress
 from unittest import result
 
+
 def validiteIP(ip):
     regex = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
     unauthorizedIP = (
@@ -93,5 +94,7 @@ def crossNetworkCheck(ip1, mask1, ip2, mask2):
         result.append("le reseau " + ip2 + "/" + mask2 + " considere que l'ip " +  ip1 +  " n'est pas dans son reseau")
     
     return result
+
+def getNbHostByIpAndMask(ip, mask):
+    return sum(1 for _ in ipaddress.IPv4Network(ip+"/"+mask, False).hosts())
     
-print(crossNetworkCheck("192.168.1.4", "255.255.255.0", "192.168.2.3", "255.255.0.0"))
