@@ -104,13 +104,22 @@ print(s.theme_names())
 print(s.theme_use())
 root.geometry("1280x720")
 
-#MainFrame
-mainFrame = Frame(root)
+#GlobalFrame
+globalFrame = Frame(root, background="purple")
+globalFrame.grid_rowconfigure(0, weight=1)
+globalFrame.grid_columnconfigure(0, weight=1)
+globalFrame.pack(side="top", fill="both", expand=True)
+
+#Exercice1
+exercice1 = Frame(globalFrame, background="yellow")
+
+#MenuFrame
+menuFrame = Frame(globalFrame, background="black")
 
 # Creating side by side frames
-frameLeft = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
-frameCenter = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
-frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5)
+frameLeft = Frame(exercice1, highlightbackground="grey", highlightthickness=1.5)
+frameCenter = Frame(exercice1, highlightbackground="grey", highlightthickness=1.5)
+frameRight = Frame(exercice1, highlightbackground="grey", highlightthickness=1.5)
 
 
 #----------------------------------------------
@@ -120,7 +129,7 @@ frameRight = Frame(mainFrame, highlightbackground="grey", highlightthickness=1.5
 frameLeftCenter = Frame(frameLeft)
 
 # First IP
-Label(frameLeftCenter, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
+Label(menuFrame, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
 IP1 = Entry(frameLeftCenter, background="Gray")
 IP1.bind("<KeyRelease>", callbackIPV4) 
 IP1.grid(row=0, column=1, padx=10, pady=10)
@@ -204,14 +213,15 @@ frameCenterCenter.pack()
 #----------------------------------------------
 
 
-
-
 #Packing frames
 frameLeft.pack(side=LEFT, fill=BOTH, expand=True, padx=10, pady=10)
 frameRight.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
 frameCenter.pack(side=RIGHT, fill=BOTH, expand=True, padx=10, pady=10)
 
-mainFrame.pack(fill=BOTH, expand=True, padx=5, pady=5)
+exercice1.grid(row=0, column=0, sticky=N+S+W+E)
+menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
+menuFrame.tkraise()
+
 
 #launching the things
 root.mainloop()
