@@ -102,11 +102,11 @@ def getNbHostByIpAndMask(ip, mask):
 def subnetingByNbSR(nbHostTot, nbSR):
     nbHostBySR = math.floor(nbHostTot / nbSR)
     if(nbHostBySR >= 4): return nbHostBySR
-    return -1
+    return "On ne peux pas réaliser de decoupe classique sur base du nombre de SR avec ces informations"
 
 def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
     maxHost = max(nbHostBySR)
     nbSRTot = math.floor(nbHostTot/maxHost)
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot
-    return -1
+    return "On ne peux pas réaliser de decoupe classique sur base du nombre d'IP par SR avec ces informations"
     

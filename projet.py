@@ -9,6 +9,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 from ctypes import windll
 from function import *
+import re
+
 #####################################################
 # CONST
 #####################################################
@@ -98,6 +100,54 @@ def resultExo1():
     numberOfNetworkResult.config(text= "Number of network: "+ str(info["nbNetwork"]))
     numberOfHostResult.config(text= "Number of host: "+ str(info["nbHost"]))
 
+def resultExo2():
+        #Initialisation 
+        networkAdressResult.config( text="Network adress: ")
+        broadcastAdressResult.config( text="Broadcast adress: ")
+        subnetworkAdressResult.config( text="")
+
+        ip = strIpAndMaskToTab(IP2.get())
+
+        # class determination
+        ipClass = findClassOfIp(ip)
+        # Network creation with user mask
+        net = ipaddress.IPv4Network(IP2.get() + "/"+ maskFromClass[ipClass], False)
+
+        #Network and Broadcast adress display
+        networkAdressResult.config(text= "Network address: "+ str(str(net.network_address)))
+        broadcastAdressResult.config(text= "Broadcast address: "+ str(str(net.broadcast_address)))
+
+        # if it's a subnet
+        if(Mask2.get() != maskFromClass[ipClass]):
+            # Subnet definition
+            net = ipaddress.IPv4Network(IP2.get() + "/"+ Mask2.get(), False)
+            subnetworkAdressResult.config(text= "You are in a subnet !\nSubnetwork adress: " + str(net.network_address))
+
+def resultExo3():
+    #initialisation
+    isSecondIpInFirstNetwork.config( text="")
+    #network creation
+    net = ipaddress.IPv4Network(IP3.get() + "/"+ Mask3.get(), False)
+    # Tell user if the ip/mask combination is in the network he entered
+    if(networkAdressCheck(net, Network3.get())): isSecondIpInFirstNetwork.config(text="l'ip " + IP3.get() + " appartient au reseau " + Network3.get())
+    else: isSecondIpInFirstNetwork.config(text="l'ip " + IP3.get() + " n'appartient pas au reseau " + Network3.get())
+
+def resultExo4():
+    #display result of exo 4
+    exercice4Tab = crossNetworkCheck(IP4.get(), Mask4.get(), secondIP4.get(), secondMask4.get())
+    exercice4Result1.config( text=exercice4Tab[0])
+    exercice4Result2.config( text=exercice4Tab[1])
+
+def resultExo5():
+    totalHost = getNbHostByIpAndMask(IP5.get(), Mask5.get())
+    nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()))
+    nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
+    totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
+    numberOfHostBySub5.config( text="Nombre d'hote par SR: " + str(nbHostbySR))
+    numberOfSubnet5.config( text="Nombre total de SR: " + str(nbSRbyHost))
+    
+
+
 def callbackIPV4(event):
     try:
         net = ipaddress.IPv4Network(IP1.get())
@@ -107,6 +157,19 @@ def callbackIPV4(event):
 
 def callbackMask(event):
    print("Mask")
+
+def callbacknbSR5(event):
+    if(len(nbSR5.get()) == 0): nbSR5.insert(0, '0')
+    if(not re.fullmatch(r'\d', nbSR5.get()[-1])): nbSR5.delete(len(nbSR5.get())-1)
+    for entry in hostEntries:
+        entry.destroy()
+    hostEntries.clear()
+    
+    for i in range(int(nbSR5.get())):
+        e = Entry(exercice5, background="Gray")
+        e.grid(row=3+i,column=1, padx=10, pady=10)
+        hostEntries.append(e)
+
 
 def display(frame):
     frame.tkraise()
@@ -126,23 +189,28 @@ print(s.theme_names())
 print(s.theme_use())
 root.geometry("1280x720")
 
+
 #GlobalFrame
 globalFrame = Frame(root, background="purple")
 globalFrame.grid_rowconfigure(0, weight=1)
 globalFrame.grid_columnconfigure(0, weight=1)
 globalFrame.pack(side="top", fill="both", expand=True)
 
+
+
 ####### Exercice1 #######
 exercice1 = Frame(globalFrame, background="yellow")
 exercice1.grid(row=0, column=0, sticky=N+S+W+E)
+#back button
+Button(exercice1, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
 #ip Entry
-Label(exercice1, text="IPV4").grid(row=0,column=0, padx=10, pady=10)
+Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP1 = Entry(exercice1, background="Gray")
 IP1.bind("<KeyRelease>", callbackIPV4) 
-IP1.grid(row=0, column=1, padx=10, pady=10)
+IP1.grid(row=1, column=1, padx=10, pady=10)
 
 #Obtain result
-button = Button(exercice1, text="Display result", command=resultExo1).grid(row=4,columnspan=2, padx=10, pady=10)
+Button(exercice1, text="Display result", command=resultExo1).grid(row=4,columnspan=2, padx=10, pady=10)
 
 # Class
 classResult = Label(exercice1, text="Class: ")
@@ -154,16 +222,162 @@ numberOfNetworkResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 numberOfHostResult = Label(exercice1, text="Number of host: ")
 numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
 
+
+
 ####### Exercice2 #######
-exercice2 = Frame(globalFrame)
+exercice2 = Frame(globalFrame, background="red")
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
+Button(exercice2, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+
+#Ip2 entry
+Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP2 = Entry(exercice2, background="Gray")
+IP2.bind("<KeyRelease>", callbackIPV4) 
+IP2.grid(row=1, column=1, padx=10, pady=10)
+
+#Mask2 entry
+Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask2 = Entry(exercice2, background="Gray")
+Mask2.bind("<KeyRelease>", callbackMask) 
+Mask2.grid(row=2,column=1, padx=10, pady=10)
+
+Button(exercice2, text="Back", command=resultExo2).grid(column=0,row=3)
+
+# Network adress
+networkAdressResult = Label(exercice2, text="Network adress: ")
+networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w")
+
+# Broadcast adress
+broadcastAdressResult = Label(exercice2, text="Broadcast adress: ")
+broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+
+# Subnetwork adress
+subnetworkAdressResult = Label(exercice2, text="")
+subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
+
+
+
+####### Exercice3 #######
+exercice3 = Frame(globalFrame, background="purple")
+exercice3.grid(row=0, column=0, sticky=N+S+W+E)
+Button(exercice3, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+
+#Ip3 entry
+Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP3 = Entry(exercice3, background="Gray")
+IP3.bind("<KeyRelease>", callbackIPV4) 
+IP3.grid(row=1, column=1, padx=10, pady=10)
+
+#Mask3 entry
+Label(exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask3 = Entry(exercice3, background="Gray")
+Mask3.bind("<KeyRelease>", callbackMask) 
+Mask3.grid(row=2,column=1, padx=10, pady=10)
+
+# Network3 Entry
+Label(exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
+Network3 = Entry(exercice3, background="Gray")
+Network3.grid(row=3,column=1, padx=10, pady=10)
+
+Button(exercice3, text="Display result", command=resultExo3).grid(column=0,row=4)
+
+# isSecondIpInFirstNetwork
+isSecondIpInFirstNetwork = Label(exercice3, text="")
+isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+
+
+
+####### Exercice4 #######
+exercice4 = Frame(globalFrame, background="blue")
+exercice4.grid(row=0, column=0, sticky=N+S+W+E)
+Button(exercice4, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+
+#Ip4 entry
+Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
+IP4 = Entry(exercice4, background="Gray")
+IP4.bind("<KeyRelease>", callbackIPV4) 
+IP4.grid(row=1, column=1, padx=10, pady=10)
+
+#Mask4 entry
+Label(exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
+Mask4 = Entry(exercice4, background="Gray")
+Mask4.bind("<KeyRelease>", callbackMask) 
+Mask4.grid(row=2,column=1, padx=10, pady=10)
+
+#Ip4 entry
+Label(exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
+secondIP4 = Entry(exercice4, background="Gray")
+secondIP4.bind("<KeyRelease>", callbackIPV4) 
+secondIP4.grid(row=1, column=4, padx=10, pady=10)
+
+#Mask4 entry
+Label(exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
+secondMask4 = Entry(exercice4, background="Gray")
+secondMask4.bind("<KeyRelease>", callbackMask) 
+secondMask4.grid(row=2,column=4, padx=10, pady=10)
+
+Button(exercice4, text="Display result", command=resultExo4).grid(column=0,row=3)
+
+# result Exercice 4
+exercice4Result1 = Label(exercice4, text="")
+exercice4Result1.grid(row=4,column=0, pady=10, padx=10, sticky="w")
+exercice4Result2 = Label(exercice4, text="")
+exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+
+
+
+####### Exercice5 #######
+exercice5 = Frame(globalFrame, background="green")
+exercice5.grid(row=0, column=0, sticky=N+S+W+E)
+Button(exercice5, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+
+Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0)
+#Ip5 entry
+Label(exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP5 = Entry(exercice5, background="Gray")
+IP5.bind("<KeyRelease>", callbackIPV4) 
+IP5.grid(row=1, column=1, padx=10, pady=10)
+
+#Mask5 entry
+Label(exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask5 = Entry(exercice5, background="Gray")
+Mask5.bind("<KeyRelease>", callbackMask) 
+Mask5.grid(row=2,column=1, padx=10, pady=10)
+
+
+hostEntries = []
+# number of subnet entry
+Label(exercice5, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
+nbSR5 = Entry(exercice5, background="Gray")
+nbSR5.bind("<KeyRelease>", callbacknbSR5) 
+nbSR5.grid(row=3,column=0, padx=10, pady=10)
+nbSR5.insert(0, '0')
+
+# total number of host5
+totalNumberOfHost5 = Label(exercice5, text="")
+totalNumberOfHost5.grid(row=1, column=3, padx=10, pady=10)
+
+#number of host by subnet5
+numberOfHostBySub5 = Label(exercice5, text="")
+numberOfHostBySub5.grid(row=2, column=3, padx=10, pady=10)
+
+# number of subnet5
+numberOfSubnet5 = Label(exercice5, text="")
+numberOfSubnet5.grid(row=3, column=3, padx=10, pady=10)
+
+
+
 
 
 ####### MenuFrame #######
 menuFrame = Frame(globalFrame, background="black")
 menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
-buttonExercice1 = Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0)
-buttonExercice2 = Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1)
+Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0)
+Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1)
+Button(menuFrame, text="3", command= lambda: display(exercice3)).grid(column=0,row=2)
+Button(menuFrame, text="4", command= lambda: display(exercice4)).grid(column=0,row=4)
+Button(menuFrame, text="5", command= lambda: display(exercice5)).grid(column=0,row=5)
+
 
 
 # # Creating side by side frames
@@ -181,11 +395,7 @@ buttonExercice2 = Button(menuFrame, text="2 - Network Or SubNetwork from IP And 
 # # First IP
 
 
-# # First Mask
-# Label(frameLeftCenter, text="Masque").grid(row=1,column=0, padx=10, pady=10)
-# Mask1 = Entry(frameLeftCenter, background="Gray")
-# Mask1.bind("<KeyRelease>", callbackMask) 
-# Mask1.grid(row=1,column=1, padx=10, pady=10)
+
 
 # # Network IP
 # Label(frameLeftCenter, text="IP Reseau").grid(row=2,column=0, padx=10, pady=10)
@@ -202,21 +412,10 @@ buttonExercice2 = Button(menuFrame, text="2 - Network Or SubNetwork from IP And 
 
 
 # # Exercice 2
-# # Network adress
-# networkAdressResult = Label(frameLeftCenter, text="Network adress: ")
-# networkAdressResult.grid(row=8,column=0, pady=10, padx=10, sticky="w")
 
-# # Broadcast adress
-# broadcastAdressResult = Label(frameLeftCenter, text="Broadcast adress: ")
-# broadcastAdressResult.grid(row=9,column=0, pady=10, padx=10, sticky="w")
-
-# # Subnetwork adress
-# subnetworkAdressResult = Label(frameLeftCenter, text="")
-# subnetworkAdressResult.grid(row=10,column=0, pady=10, padx=10, sticky="w")
 
 # # Exercice 3
-# isSecondIpInFirstNetwork = Label(frameLeftCenter, text="")
-# isSecondIpInFirstNetwork.grid(row=11,column=0, pady=10, padx=10, sticky="w")
+
 
 
 
