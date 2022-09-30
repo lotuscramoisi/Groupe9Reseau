@@ -103,11 +103,13 @@ def callbackIPV4(event):
         net = ipaddress.IPv4Network(IP1.get())
         IP1.config({"background": "White"})
     except ValueError:
-        print("Incorrect Ip")
         IP1.config({"background": "Gray"})
 
 def callbackMask(event):
    print("Mask")
+
+def display(frame):
+    frame.tkraise()
 
 #####################################################
 # END FUNCTION
@@ -152,14 +154,18 @@ numberOfNetworkResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 numberOfHostResult = Label(exercice1, text="Number of host: ")
 numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
 
-# Exercice2
+####### Exercice2 #######
 exercice2 = Frame(globalFrame)
-exercice1.grid(row=0, column=0, sticky=N+S+W+E)
-# Exercice
+exercice2.grid(row=0, column=0, sticky=N+S+W+E)
 
-#MenuFrame
+
+####### MenuFrame #######
 menuFrame = Frame(globalFrame, background="black")
 menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
+buttonExercice1 = Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0)
+buttonExercice2 = Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1)
+
+
 # # Creating side by side frames
 # frameLeft = Frame(exercice1, highlightbackground="grey", highlightthickness=1.5)
 # frameCenter = Frame(exercice1, highlightbackground="grey", highlightthickness=1.5)
@@ -251,7 +257,7 @@ menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
 
 
 
-exercice1.tkraise()
+menuFrame.tkraise()
 
 
 #launching the things
