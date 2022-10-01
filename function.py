@@ -2,6 +2,8 @@ import re
 import ipaddress
 from unittest import result
 import math
+from constructionDB import pwdFromDB
+import bcrypt
 
 
 def validiteIP(ip):
@@ -109,4 +111,7 @@ def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
     nbSRTot = math.floor(nbHostTot/maxHost)
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot
     return "On ne peux pas réaliser de decoupe classique sur base du nombre d'IP par SR avec ces informations"
-    
+
+def isPwdCorrect(pswd):
+    pswdToTry = pswd.encode("utf-8")
+    return bcrypt.checkpw(pswdToTry, pwdFromDB)

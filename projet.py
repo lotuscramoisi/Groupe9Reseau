@@ -1,7 +1,7 @@
 #Groupe 9
 
 from cgitb import text
-from turtle import left
+from turtle import color, left
 import pandas as pd
 import ipaddress
 from tkinter import *
@@ -147,7 +147,11 @@ def resultExo5():
     numberOfHostBySub5.config( text="Nombre d'hote par SR: " + str(nbHostbySR))
     numberOfSubnet5.config( text="Nombre total de SR: " + str(nbSRbyHost))
     
-
+def tryToLog():
+    if(userName.get() == "admin" and isPwdCorrect(password.get())):
+        display(menuFrame)
+    else:
+        loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")
 
 def callbackIPV4(event):
     try:
@@ -202,6 +206,26 @@ globalFrame = Frame(root, background="purple")
 globalFrame.grid_rowconfigure(0, weight=1)
 globalFrame.grid_columnconfigure(0, weight=1)
 globalFrame.pack(side="top", fill="both", expand=True)
+
+
+
+####### Login Frame #####
+loginFrame = Frame(globalFrame)
+loginFrame.grid(row=0, column=0, sticky=N+S+W+E)
+Label(loginFrame, text="Login").pack()
+ # Username
+Label(loginFrame, text="Username : ").pack()
+userName = Entry(loginFrame)
+userName.pack()
+# Password
+Label(loginFrame, text="Password : ").pack()
+password = Entry(loginFrame)
+password.pack()
+# error display
+loginError = Label(loginFrame, text="")
+loginError.pack()
+#login Button
+Button(loginFrame, text="Display result", command=tryToLog).pack()
 
 
 
@@ -461,7 +485,7 @@ Button(menuFrame, text="5", command= lambda: display(exercice5)).grid(column=0,r
 
 
 
-menuFrame.tkraise()
+loginFrame.tkraise()
 
 
 #launching the things
