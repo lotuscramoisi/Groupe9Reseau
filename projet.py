@@ -10,6 +10,7 @@ import tkinter.ttk as ttk
 from ctypes import windll
 from function import *
 import re
+import pathlib, os
 
 #####################################################
 # CONST
@@ -189,6 +190,12 @@ print(s.theme_names())
 print(s.theme_use())
 root.geometry("1280x720")
 
+#Image
+img_file_name = "home.gif"
+current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+img_path = os.path.join(current_dir, img_file_name)
+image = PhotoImage(file=img_path, )
+image = image.subsample(3,3)
 
 #GlobalFrame
 globalFrame = Frame(root, background="purple")
@@ -199,10 +206,10 @@ globalFrame.pack(side="top", fill="both", expand=True)
 
 
 ####### Exercice1 #######
-exercice1 = Frame(globalFrame, background="yellow")
+exercice1 = Frame(globalFrame)
 exercice1.grid(row=0, column=0, sticky=N+S+W+E)
 #back button
-Button(exercice1, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+Button(exercice1, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 #ip Entry
 Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP1 = Entry(exercice1, background="Gray")
@@ -225,9 +232,9 @@ numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
 
 
 ####### Exercice2 #######
-exercice2 = Frame(globalFrame, background="red")
+exercice2 = Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice2, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+Button(exercice2, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 
 #Ip2 entry
 Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
@@ -240,8 +247,6 @@ Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask2 = Entry(exercice2, background="Gray")
 Mask2.bind("<KeyRelease>", callbackMask) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
-
-Button(exercice2, text="Back", command=resultExo2).grid(column=0,row=3)
 
 # Network adress
 networkAdressResult = Label(exercice2, text="Network adress: ")
@@ -258,9 +263,9 @@ subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 
 
 ####### Exercice3 #######
-exercice3 = Frame(globalFrame, background="purple")
+exercice3 = Frame(globalFrame)
 exercice3.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice3, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+Button(exercice3, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 
 #Ip3 entry
 Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
@@ -288,9 +293,9 @@ isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 
 ####### Exercice4 #######
-exercice4 = Frame(globalFrame, background="blue")
+exercice4 = Frame(globalFrame)
 exercice4.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice4, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+Button(exercice4, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 
 #Ip4 entry
 Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
@@ -327,9 +332,9 @@ exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 
 ####### Exercice5 #######
-exercice5 = Frame(globalFrame, background="green")
+exercice5 = Frame(globalFrame)
 exercice5.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice5, text="Back", command=lambda: display(menuFrame)).grid(column=0,row=0)
+Button(exercice5, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 
 Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0)
 #Ip5 entry
@@ -370,7 +375,7 @@ numberOfSubnet5.grid(row=3, column=3, padx=10, pady=10)
 
 
 ####### MenuFrame #######
-menuFrame = Frame(globalFrame, background="black")
+menuFrame = Frame(globalFrame)
 menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
 Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0)
 Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1)
