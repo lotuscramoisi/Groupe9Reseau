@@ -109,8 +109,13 @@ def callbackIPV4(event, input):
     except ValueError:
         input.config({"background": "Gray"})
 
-def callbackMask(event):
-   print("Mask")
+def callbackMask(even, mask):
+    try:
+        ipaddress.IPv4Network('0.0.0.0/'+mask.get()).is_private
+        mask.config({"background": "White"})
+    except ValueError:
+        mask.config({"background": "Gray"})
+
 
 def callbacknbSR5(event):
     if(len(nbSR5.get()) == 0): nbSR5.insert(0, '0')
@@ -216,7 +221,7 @@ IP2.grid(row=1, column=1, padx=10, pady=10)
 #Mask2 entry
 Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask2 = Entry(exercice2, background="Gray")
-Mask2.bind("<KeyRelease>", callbackMask) 
+Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
 # Network adress
@@ -247,7 +252,7 @@ IP3.grid(row=1, column=1, padx=10, pady=10)
 #Mask3 entry
 Label(exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask3 = Entry(exercice3, background="Gray")
-Mask3.bind("<KeyRelease>", callbackMask) 
+Mask3.bind("<KeyRelease>", lambda event : callbackMask(event, Mask3)) 
 Mask3.grid(row=2,column=1, padx=10, pady=10)
 
 # Network3 Entry
@@ -278,7 +283,7 @@ IP4.grid(row=1, column=1, padx=10, pady=10)
 #Mask4 entry
 Label(exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
 Mask4 = Entry(exercice4, background="Gray")
-Mask4.bind("<KeyRelease>", callbackMask) 
+Mask4.bind("<KeyRelease>", lambda event : callbackMask(event, Mask4)) 
 Mask4.grid(row=2,column=1, padx=10, pady=10)
 
 #Ip4 entry
@@ -290,7 +295,7 @@ secondIP4.grid(row=1, column=4, padx=10, pady=10)
 #Mask4 entry
 Label(exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
 secondMask4 = Entry(exercice4, background="Gray")
-secondMask4.bind("<KeyRelease>", callbackMask) 
+secondMask4.bind("<KeyRelease>", lambda event : callbackMask(event, secondMask4)) 
 secondMask4.grid(row=2,column=4, padx=10, pady=10)
 
 Button(exercice4, text="Display result", command=resultExo4).grid(column=0,row=3)
@@ -318,7 +323,7 @@ IP5.grid(row=1, column=1, padx=10, pady=10)
 #Mask5 entry
 Label(exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask5 = Entry(exercice5, background="Gray")
-Mask5.bind("<KeyRelease>", callbackMask) 
+Mask5.bind("<KeyRelease>", lambda event : callbackMask(event, Mask5)) 
 Mask5.grid(row=2,column=1, padx=10, pady=10)
 
 
