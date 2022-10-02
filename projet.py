@@ -224,6 +224,8 @@ Mask2 = Entry(exercice2, background="Gray")
 Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
+Button(exercice2, text="Display result", command=resultExo2).grid(row=3, column=0, padx=10, pady=10)
+
 # Network adress
 networkAdressResult = Label(exercice2, text="Network adress: ")
 networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w")
