@@ -14,9 +14,7 @@ db = connection.cursor()
 db.execute("SELECT password from user WHERE username = 'admin'")
 
 pwdFromDB = db.fetchall()[0][0]
-print(pwdFromDB)
 essaie = "admin".encode("utf-8")
-print(bcrypt.checkpw(essaie, pwdFromDB))
 
 connection.commit()
 connection.close()

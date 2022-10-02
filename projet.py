@@ -139,10 +139,7 @@ windll.shcore.SetProcessDpiAwareness(1)
 root = Tk()
 root.title("Système et réseau")
 s = ttk.Style()
-print(s.theme_names())
-print(s.theme_use())
 root.geometry("1280x720")
-colorForIp = "Gray"
 
 #Image
 img_file_name = "home.gif"
@@ -188,7 +185,6 @@ Button(exercice1, text="Back", command=lambda: display(menuFrame), image=image).
 Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP1 = Entry(exercice1, background="Gray")
 IP1.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP1))
-print(colorForIp) 
 IP1.grid(row=1, column=1, padx=10, pady=10)
 
 #Obtain result

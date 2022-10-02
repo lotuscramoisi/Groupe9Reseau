@@ -14,7 +14,6 @@ def validiteIP(ip):
         "255.255.255.255"
     )
     if ip in unauthorizedIP or not((re.search(regex, ip))):
-        print("Ip invalide !")
         return False 
     return True
     
@@ -74,8 +73,6 @@ def getBroadcast(IpAdress, mask):
     return result
 
 def networkAdressCheck(network, netAdress):
-    print(network.network_address)
-    print(netAdress)
     if (str(network.network_address) == netAdress): return True
     else: return False
     
