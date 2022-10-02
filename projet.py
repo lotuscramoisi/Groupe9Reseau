@@ -102,12 +102,12 @@ def tryToLog():
     else:
         loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")
 
-def callbackIPV4(event):
+def callbackIPV4(event, input):
     try:
-        net = ipaddress.IPv4Network(IP1.get())
-        IP1.config({"background": "White"})
+        net = ipaddress.IPv4Network(input.get())
+        input.config({"background": "White"})
     except ValueError:
-        IP1.config({"background": "Gray"})
+        input.config({"background": "Gray"})
 
 def callbackMask(event):
    print("Mask")
@@ -142,6 +142,7 @@ s = ttk.Style()
 print(s.theme_names())
 print(s.theme_use())
 root.geometry("1280x720")
+colorForIp = "Gray"
 
 #Image
 img_file_name = "home.gif"
@@ -186,7 +187,8 @@ Button(exercice1, text="Back", command=lambda: display(menuFrame), image=image).
 #ip Entry
 Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP1 = Entry(exercice1, background="Gray")
-IP1.bind("<KeyRelease>", callbackIPV4) 
+IP1.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP1))
+print(colorForIp) 
 IP1.grid(row=1, column=1, padx=10, pady=10)
 
 #Obtain result
@@ -212,7 +214,7 @@ Button(exercice2, text="Back", command=lambda: display(menuFrame), image=image).
 #Ip2 entry
 Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP2 = Entry(exercice2, background="Gray")
-IP2.bind("<KeyRelease>", callbackIPV4) 
+IP2.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP2))
 IP2.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask2 entry
@@ -243,7 +245,7 @@ Button(exercice3, text="Back", command=lambda: display(menuFrame), image=image).
 #Ip3 entry
 Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP3 = Entry(exercice3, background="Gray")
-IP3.bind("<KeyRelease>", callbackIPV4) 
+IP3.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP3))
 IP3.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask3 entry
@@ -255,6 +257,7 @@ Mask3.grid(row=2,column=1, padx=10, pady=10)
 # Network3 Entry
 Label(exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
 Network3 = Entry(exercice3, background="Gray")
+Network3.bind("<KeyRelease>", lambda event : callbackIPV4(event, Network3))
 Network3.grid(row=3,column=1, padx=10, pady=10)
 
 Button(exercice3, text="Display result", command=resultExo3).grid(column=0,row=4)
@@ -273,7 +276,7 @@ Button(exercice4, text="Back", command=lambda: display(menuFrame), image=image).
 #Ip4 entry
 Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
 IP4 = Entry(exercice4, background="Gray")
-IP4.bind("<KeyRelease>", callbackIPV4) 
+IP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP4))
 IP4.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask4 entry
@@ -285,7 +288,7 @@ Mask4.grid(row=2,column=1, padx=10, pady=10)
 #Ip4 entry
 Label(exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
 secondIP4 = Entry(exercice4, background="Gray")
-secondIP4.bind("<KeyRelease>", callbackIPV4) 
+secondIP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, secondIP4))
 secondIP4.grid(row=1, column=4, padx=10, pady=10)
 
 #Mask4 entry
@@ -313,7 +316,7 @@ Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0
 #Ip5 entry
 Label(exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP5 = Entry(exercice5, background="Gray")
-IP5.bind("<KeyRelease>", callbackIPV4) 
+IP5.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP5))
 IP5.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask5 entry
@@ -347,11 +350,11 @@ numberOfSubnet5.grid(row=3, column=3, padx=10, pady=10)
 ####### MenuFrame #######
 menuFrame = Frame(globalFrame)
 menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
-Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0)
-Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1)
-Button(menuFrame, text="3", command= lambda: display(exercice3)).grid(column=0,row=2)
-Button(menuFrame, text="4", command= lambda: display(exercice4)).grid(column=0,row=4)
-Button(menuFrame, text="5", command= lambda: display(exercice5)).grid(column=0,row=5)
+Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0, sticky="w")
+Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1, sticky="w")
+Button(menuFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3)).grid(column=0,row=2, sticky="w")
+Button(menuFrame, text="4 - Find network of two IP", command= lambda: display(exercice4)).grid(column=0,row=4, sticky="w")
+Button(menuFrame, text="5 - Subnetting", command= lambda: display(exercice5)).grid(column=0,row=5, sticky="w")
 
 
 #Startint window
