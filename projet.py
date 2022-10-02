@@ -24,12 +24,19 @@ maskFromClass = {
     "E": "NOT DEFINED"
 }
 
+backgroundColorCorrect = "White"
+backgroundColorIncorrect = "Gray"
+
 #####################################################
 # FUNCTION
 #####################################################
 
 def resultExo1():
+    if(IP1["background"]== backgroundColorIncorrect):
+        loginErrorex1.config(text="Un des champs n'est pas remplis correctement")
+        return
     #### INTERFACE RESET
+    loginErrorex1.config(text="")
     classResult.config(text= "Class: ")
     numberOfNetworkResult.config( text="Number of network: ")
     numberOfHostResult.config( text="Number of host: ")
@@ -51,30 +58,38 @@ def resultExo1():
     numberOfHostResult.config(text= "Number of host: "+ str(info["nbHost"]))
 
 def resultExo2():
-        #Initialisation 
-        networkAdressResult.config( text="Network adress: ")
-        broadcastAdressResult.config( text="Broadcast adress: ")
-        subnetworkAdressResult.config( text="")
+    if((IP2["background"]== backgroundColorIncorrect) | (Mask2["background"]== backgroundColorIncorrect)):
+        loginErrorex2.config(text="Un des champs n'est pas remplis correctement")
+        return
+    #Initialisation 
+    loginErrorex2.config(text="")
+    networkAdressResult.config( text="Network adress: ")
+    broadcastAdressResult.config( text="Broadcast adress: ")
+    subnetworkAdressResult.config( text="")
 
-        ip = strIpAndMaskToTab(IP2.get())
+    ip = strIpAndMaskToTab(IP2.get())
 
-        # class determination
-        ipClass = findClassOfIp(ip)
-        # Network creation with user mask
-        net = ipaddress.IPv4Network(IP2.get() + "/"+ maskFromClass[ipClass], False)
+    # class determination
+    ipClass = findClassOfIp(ip)
+    # Network creation with user mask
+    net = ipaddress.IPv4Network(IP2.get() + "/"+ maskFromClass[ipClass], False)
 
-        #Network and Broadcast adress display
-        networkAdressResult.config(text= "Network address: "+ str(str(net.network_address)))
-        broadcastAdressResult.config(text= "Broadcast address: "+ str(str(net.broadcast_address)))
+    #Network and Broadcast adress display
+    networkAdressResult.config(text= "Network address: "+ str(str(net.network_address)))
+    broadcastAdressResult.config(text= "Broadcast address: "+ str(str(net.broadcast_address)))
 
-        # if it's a subnet
-        if(Mask2.get() != maskFromClass[ipClass]):
-            # Subnet definition
-            net = ipaddress.IPv4Network(IP2.get() + "/"+ Mask2.get(), False)
-            subnetworkAdressResult.config(text= "You are in a subnet !\nSubnetwork adress: " + str(net.network_address))
+    # if it's a subnet
+    if(Mask2.get() != maskFromClass[ipClass]):
+        # Subnet definition
+        net = ipaddress.IPv4Network(IP2.get() + "/"+ Mask2.get(), False)
+        subnetworkAdressResult.config(text= "You are in a subnet !\nSubnetwork adress: " + str(net.network_address))
 
 def resultExo3():
+    if((IP3["background"]== backgroundColorIncorrect) | (Mask3["background"]== backgroundColorIncorrect) | (Network3["background"]== backgroundColorIncorrect)):
+        loginErrorex3.config(text="Un des champs n'est pas remplis correctement")
+        return
     #initialisation
+    loginErrorex3.config(text="")
     isSecondIpInFirstNetwork.config( text="")
     #network creation
     net = ipaddress.IPv4Network(IP3.get() + "/"+ Mask3.get(), False)
@@ -83,12 +98,20 @@ def resultExo3():
     else: isSecondIpInFirstNetwork.config(text="l'ip " + IP3.get() + " n'appartient pas au reseau " + Network3.get())
 
 def resultExo4():
+    if((IP4["background"]== backgroundColorIncorrect) | (Mask4["background"]== backgroundColorIncorrect) | (secondIP4["background"]== backgroundColorIncorrect) | (secondMask4["background"]== backgroundColorIncorrect)):
+        loginErrorex4.config(text="Un des champs n'est pas remplis correctement")
+        return
     #display result of exo 4
+    loginErrorex4.config(text="")
     exercice4Tab = crossNetworkCheck(IP4.get(), Mask4.get(), secondIP4.get(), secondMask4.get())
     exercice4Result1.config( text=exercice4Tab[0])
     exercice4Result2.config( text=exercice4Tab[1])
 
 def resultExo5():
+    if((IP5["background"]== backgroundColorIncorrect) | (Mask5["background"]== backgroundColorIncorrect)):
+        loginErrorex5.config(text="Un des champs n'est pas remplis correctement")
+        return
+    loginErrorex5.config(text="")
     totalHost = getNbHostByIpAndMask(IP5.get(), Mask5.get())
     nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()))
     nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
@@ -105,16 +128,16 @@ def tryToLog():
 def callbackIPV4(event, input):
     try:
         net = ipaddress.IPv4Network(input.get())
-        input.config({"background": "White"})
+        input.config({"background": backgroundColorCorrect})
     except ValueError:
-        input.config({"background": "Gray"})
+        input.config({"background": backgroundColorIncorrect})
 
 def callbackMask(even, mask):
     try:
         ipaddress.IPv4Network('0.0.0.0/'+mask.get()).is_private
-        mask.config({"background": "White"})
+        mask.config({"background": backgroundColorCorrect})
     except ValueError:
-        mask.config({"background": "Gray"})
+        mask.config({"background": backgroundColorIncorrect})
 
 
 def callbacknbSR5(event):
@@ -125,7 +148,7 @@ def callbacknbSR5(event):
     hostEntries.clear()
     
     for i in range(int(nbSR5.get())):
-        e = Entry(exercice5, background="Gray")
+        e = Entry(exercice5, background= backgroundColorIncorrect)
         e.grid(row=3+i,column=1, padx=10, pady=10)
         hostEntries.append(e)
 
@@ -147,7 +170,7 @@ s = ttk.Style()
 root.geometry("1280x720")
 
 #Image
-img_file_name = "home.gif"
+img_file_name = "home.png"
 current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 img_path = os.path.join(current_dir, img_file_name)
 image = PhotoImage(file=img_path, )
@@ -188,12 +211,14 @@ exercice1.grid(row=0, column=0, sticky=N+S+W+E)
 Button(exercice1, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 #ip Entry
 Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP1 = Entry(exercice1, background="Gray")
+IP1 = Entry(exercice1, background=backgroundColorIncorrect)
 IP1.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP1))
 IP1.grid(row=1, column=1, padx=10, pady=10)
 
 #Obtain result
 Button(exercice1, text="Display result", command=resultExo1).grid(row=4,columnspan=2, padx=10, pady=10)
+loginErrorex1 = Label(exercice1, text="")
+loginErrorex1.grid(row=4, column=3, pady=10, padx=10, sticky="w")
 
 # Class
 classResult = Label(exercice1, text="Class: ")
@@ -206,7 +231,6 @@ numberOfHostResult = Label(exercice1, text="Number of host: ")
 numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
 
 
-
 ####### Exercice2 #######
 exercice2 = Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
@@ -214,17 +238,19 @@ Button(exercice2, text="Back", command=lambda: display(menuFrame), image=image).
 
 #Ip2 entry
 Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP2 = Entry(exercice2, background="Gray")
+IP2 = Entry(exercice2, background=backgroundColorIncorrect)
 IP2.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP2))
 IP2.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask2 entry
 Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask2 = Entry(exercice2, background="Gray")
+Mask2 = Entry(exercice2, background=backgroundColorIncorrect)
 Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
 Button(exercice2, text="Display result", command=resultExo2).grid(row=3, column=0, padx=10, pady=10)
+loginErrorex2 = Label(exercice2, text="")
+loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
 networkAdressResult = Label(exercice2, text="Network adress: ")
@@ -247,23 +273,25 @@ Button(exercice3, text="Back", command=lambda: display(menuFrame), image=image).
 
 #Ip3 entry
 Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP3 = Entry(exercice3, background="Gray")
+IP3 = Entry(exercice3, background=backgroundColorIncorrect)
 IP3.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP3))
 IP3.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask3 entry
 Label(exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask3 = Entry(exercice3, background="Gray")
+Mask3 = Entry(exercice3, background=backgroundColorIncorrect)
 Mask3.bind("<KeyRelease>", lambda event : callbackMask(event, Mask3)) 
 Mask3.grid(row=2,column=1, padx=10, pady=10)
 
 # Network3 Entry
 Label(exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
-Network3 = Entry(exercice3, background="Gray")
+Network3 = Entry(exercice3, background=backgroundColorIncorrect)
 Network3.bind("<KeyRelease>", lambda event : callbackIPV4(event, Network3))
 Network3.grid(row=3,column=1, padx=10, pady=10)
 
 Button(exercice3, text="Display result", command=resultExo3).grid(column=0,row=4)
+loginErrorex3 = Label(exercice3, text="")
+loginErrorex3.grid(row=4, column=2, pady=10, padx=10, sticky="w")
 
 # isSecondIpInFirstNetwork
 isSecondIpInFirstNetwork = Label(exercice3, text="")
@@ -278,29 +306,31 @@ Button(exercice4, text="Back", command=lambda: display(menuFrame), image=image).
 
 #Ip4 entry
 Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
-IP4 = Entry(exercice4, background="Gray")
+IP4 = Entry(exercice4, background=backgroundColorIncorrect)
 IP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP4))
 IP4.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask4 entry
 Label(exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
-Mask4 = Entry(exercice4, background="Gray")
+Mask4 = Entry(exercice4, background=backgroundColorIncorrect)
 Mask4.bind("<KeyRelease>", lambda event : callbackMask(event, Mask4)) 
 Mask4.grid(row=2,column=1, padx=10, pady=10)
 
 #Ip4 entry
 Label(exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
-secondIP4 = Entry(exercice4, background="Gray")
+secondIP4 = Entry(exercice4, background=backgroundColorIncorrect)
 secondIP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, secondIP4))
 secondIP4.grid(row=1, column=4, padx=10, pady=10)
 
 #Mask4 entry
 Label(exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
-secondMask4 = Entry(exercice4, background="Gray")
+secondMask4 = Entry(exercice4, background=backgroundColorIncorrect)
 secondMask4.bind("<KeyRelease>", lambda event : callbackMask(event, secondMask4)) 
 secondMask4.grid(row=2,column=4, padx=10, pady=10)
 
 Button(exercice4, text="Display result", command=resultExo4).grid(column=0,row=3)
+loginErrorex4 = Label(exercice4, text="")
+loginErrorex4.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # result Exercice 4
 exercice4Result1 = Label(exercice4, text="")
@@ -316,15 +346,18 @@ exercice5.grid(row=0, column=0, sticky=N+S+W+E)
 Button(exercice5, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
 
 Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0)
+loginErrorex5 = Label(exercice5, text="")
+loginErrorex5.grid(row=1, column=3, pady=10, padx=10, sticky="w")
+
 #Ip5 entry
 Label(exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP5 = Entry(exercice5, background="Gray")
+IP5 = Entry(exercice5, background=backgroundColorIncorrect)
 IP5.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP5))
 IP5.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask5 entry
 Label(exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask5 = Entry(exercice5, background="Gray")
+Mask5 = Entry(exercice5, background=backgroundColorIncorrect)
 Mask5.bind("<KeyRelease>", lambda event : callbackMask(event, Mask5)) 
 Mask5.grid(row=2,column=1, padx=10, pady=10)
 
@@ -332,7 +365,7 @@ Mask5.grid(row=2,column=1, padx=10, pady=10)
 hostEntries = []
 # number of subnet entry
 Label(exercice5, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
-nbSR5 = Entry(exercice5, background="Gray")
+nbSR5 = Entry(exercice5, background=backgroundColorIncorrect)
 nbSR5.bind("<KeyRelease>", callbacknbSR5) 
 nbSR5.grid(row=3,column=0, padx=10, pady=10)
 nbSR5.insert(0, '0')
