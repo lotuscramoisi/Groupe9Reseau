@@ -194,7 +194,7 @@ userName = Entry(loginFrame)
 userName.pack()
 # Password
 Label(loginFrame, text="Password : ").pack()
-password = Entry(loginFrame)
+password = Entry(loginFrame, show="*")
 password.pack()
 # error display
 loginError = Label(loginFrame, text="")
