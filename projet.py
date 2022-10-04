@@ -1,15 +1,12 @@
 #Groupe 9
 
-from cgitb import text
-from turtle import color, left
-import pandas as pd
 import ipaddress
 from tkinter import *
-import tkinter as tk
+from tkinter.font import Font
 import tkinter.ttk as ttk
 from ctypes import windll
 from function import *
-import re
+from ttkthemes import ThemedTk
 import pathlib, os
 
 #####################################################
@@ -159,20 +156,12 @@ def callbacknbSR5(event):
 windll.shcore.SetProcessDpiAwareness(1)
 
 #creating main window
-root = Tk()
+root = ThemedTk(theme="equilux")
 root.title("Système et réseau")
-s = ttk.Style()
 root.geometry("1280x720")
 
-#Image
-img_file_name = "home.png"
-current_dir = pathlib.Path(__file__).parent.resolve() # current directory
-img_path = os.path.join(current_dir, img_file_name)
-image = PhotoImage(file=img_path, )
-image = image.subsample(3,3)
-
 #GlobalFrame
-globalFrame = Frame(root, background="purple")
+globalFrame = ttk.Frame(root)
 globalFrame.grid_rowconfigure(0, weight=1)
 globalFrame.grid_columnconfigure(0, weight=1)
 globalFrame.pack(side="top", fill="both", expand=True)
@@ -180,83 +169,83 @@ globalFrame.pack(side="top", fill="both", expand=True)
 
 
 ####### Login Frame #####
-loginFrame = Frame(globalFrame)
+loginFrame = ttk.Frame(globalFrame)
 loginFrame.grid(row=0, column=0, sticky=N+S+W+E)
-Label(loginFrame, text="Login").pack()
+ttk.Label(loginFrame, text="Login", font=("Arial", 30)).pack(pady=20)
  # Username
-Label(loginFrame, text="Username : ").pack()
+ttk.Label(loginFrame, text="Username : ", font=("Arial", 13)).pack(pady=2)
 userName = Entry(loginFrame)
 userName.pack()
 # Password
-Label(loginFrame, text="Password : ").pack()
+ttk.Label(loginFrame, text="Password : ", font=("Arial", 13)).pack(pady=2)
 password = Entry(loginFrame, show="*")
 password.pack()
 # error display
-loginError = Label(loginFrame, text="")
-loginError.pack()
+loginError = ttk.Label(loginFrame, text="", font=("Arial", 13))
+loginError.pack(pady=5)
 #login Button
-Button(loginFrame, text="Display result", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
+ttk.Button(loginFrame, text="Display result", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
 
 
 
 ####### Exercice1 #######
-exercice1 = Frame(globalFrame)
+exercice1 = ttk.Frame(globalFrame)
 exercice1.grid(row=0, column=0, sticky=N+S+W+E)
 #back button
-Button(exercice1, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
+ttk.Button(exercice1, text="Back", command=lambda: display(menuFrame)).place(x=1200,y=0)
 #ip Entry
-Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+ttk.Label(exercice1, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP1 = Entry(exercice1, background=backgroundColorIncorrect)
 IP1.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP1))
 IP1.grid(row=1, column=1, padx=10, pady=10)
 
 #Obtain result
-Button(exercice1, text="Display result", command=resultExo1).grid(row=4,columnspan=2, padx=10, pady=10)
-loginErrorex1 = Label(exercice1, text="")
+ttk.Button(exercice1, text="Display result", command=resultExo1).grid(row=4,columnspan=2, padx=10, pady=10)
+loginErrorex1 = ttk.Label(exercice1, text="")
 loginErrorex1.grid(row=4, column=3, pady=10, padx=10, sticky="w")
 
 # Class
-classResult = Label(exercice1, text="Class: ")
+classResult = ttk.Label(exercice1, text="Class: ")
 classResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 # Number of network
-numberOfNetworkResult = Label(exercice1, text="Number of network: ")
+numberOfNetworkResult = ttk.Label(exercice1, text="Number of network: ")
 numberOfNetworkResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 # Number of Host
-numberOfHostResult = Label(exercice1, text="Number of host: ")
+numberOfHostResult = ttk.Label(exercice1, text="Number of host: ")
 numberOfHostResult.grid(row=7,column=0, pady=10, padx=10, sticky="w")
 
 
 ####### Exercice2 #######
 exercice2 = Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice2, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
+ttk.Button(exercice2, text="Back", command=lambda: display(menuFrame)).place(x=1200,y=0)
 
 #Ip2 entry
-Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+ttk.Label(exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP2 = Entry(exercice2, background=backgroundColorIncorrect)
 IP2.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP2))
 IP2.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask2 entry
-Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+ttk.Label(exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask2 = Entry(exercice2, background=backgroundColorIncorrect)
 Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
-Button(exercice2, text="Display result", command=resultExo2).grid(row=3, column=0, padx=10, pady=10)
-loginErrorex2 = Label(exercice2, text="")
+ttk.Button(exercice2, text="Display result", command=resultExo2).grid(row=3, column=0, padx=10, pady=10)
+loginErrorex2 = ttk.Label(exercice2, text="")
 loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
-networkAdressResult = Label(exercice2, text="Network adress: ")
+networkAdressResult = ttk.Label(exercice2, text="Network adress: ")
 networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w")
 
 # Broadcast adress
-broadcastAdressResult = Label(exercice2, text="Broadcast adress: ")
+broadcastAdressResult = ttk.Label(exercice2, text="Broadcast adress: ")
 broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 # Subnetwork adress
-subnetworkAdressResult = Label(exercice2, text="")
+subnetworkAdressResult = ttk.Label(exercice2, text="")
 subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 
 
@@ -264,32 +253,32 @@ subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 ####### Exercice3 #######
 exercice3 = Frame(globalFrame)
 exercice3.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice3, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
+ttk.Button(exercice3, text="Back", command=lambda: display(menuFrame)).place(x=1200,y=0)
 
 #Ip3 entry
-Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+ttk.Label(exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP3 = Entry(exercice3, background=backgroundColorIncorrect)
 IP3.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP3))
 IP3.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask3 entry
-Label(exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+ttk.Label(exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask3 = Entry(exercice3, background=backgroundColorIncorrect)
 Mask3.bind("<KeyRelease>", lambda event : callbackMask(event, Mask3)) 
 Mask3.grid(row=2,column=1, padx=10, pady=10)
 
 # Network3 Entry
-Label(exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
+ttk.Label(exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
 Network3 = Entry(exercice3, background=backgroundColorIncorrect)
 Network3.bind("<KeyRelease>", lambda event : callbackIPV4(event, Network3))
 Network3.grid(row=3,column=1, padx=10, pady=10)
 
-Button(exercice3, text="Display result", command=resultExo3).grid(column=0,row=4)
-loginErrorex3 = Label(exercice3, text="")
+ttk.Button(exercice3, text="Display result", command=resultExo3).grid(column=0,row=4)
+loginErrorex3 = ttk.Label(exercice3, text="")
 loginErrorex3.grid(row=4, column=2, pady=10, padx=10, sticky="w")
 
 # isSecondIpInFirstNetwork
-isSecondIpInFirstNetwork = Label(exercice3, text="")
+isSecondIpInFirstNetwork = ttk.Label(exercice3, text="")
 isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 
@@ -297,40 +286,40 @@ isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 ####### Exercice4 #######
 exercice4 = Frame(globalFrame)
 exercice4.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice4, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
+ttk.Button(exercice4, text="Back", command=lambda: display(menuFrame)).place(x=1200,y=0)
 
 #Ip4 entry
-Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
+ttk.Label(exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
 IP4 = Entry(exercice4, background=backgroundColorIncorrect)
 IP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP4))
 IP4.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask4 entry
-Label(exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
+ttk.Label(exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
 Mask4 = Entry(exercice4, background=backgroundColorIncorrect)
 Mask4.bind("<KeyRelease>", lambda event : callbackMask(event, Mask4)) 
 Mask4.grid(row=2,column=1, padx=10, pady=10)
 
 #Ip4 entry
-Label(exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
+ttk.Label(exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
 secondIP4 = Entry(exercice4, background=backgroundColorIncorrect)
 secondIP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, secondIP4))
 secondIP4.grid(row=1, column=4, padx=10, pady=10)
 
 #Mask4 entry
-Label(exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
+ttk.Label(exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
 secondMask4 = Entry(exercice4, background=backgroundColorIncorrect)
 secondMask4.bind("<KeyRelease>", lambda event : callbackMask(event, secondMask4)) 
 secondMask4.grid(row=2,column=4, padx=10, pady=10)
 
-Button(exercice4, text="Display result", command=resultExo4).grid(column=0,row=3)
-loginErrorex4 = Label(exercice4, text="")
+ttk.Button(exercice4, text="Display result", command=resultExo4).grid(column=0,row=3)
+loginErrorex4 = ttk.Label(exercice4, text="")
 loginErrorex4.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # result Exercice 4
-exercice4Result1 = Label(exercice4, text="")
+exercice4Result1 = ttk.Label(exercice4, text="")
 exercice4Result1.grid(row=4,column=0, pady=10, padx=10, sticky="w")
-exercice4Result2 = Label(exercice4, text="")
+exercice4Result2 = ttk.Label(exercice4, text="")
 exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 
@@ -338,20 +327,20 @@ exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 ####### Exercice5 #######
 exercice5 = Frame(globalFrame)
 exercice5.grid(row=0, column=0, sticky=N+S+W+E)
-Button(exercice5, text="Back", command=lambda: display(menuFrame), image=image).place(x=1215,y=0)
+ttk.Button(exercice5, text="Back", command=lambda: display(menuFrame)).place(x=1200,y=0)
 
-Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0)
-loginErrorex5 = Label(exercice5, text="")
+ttk.Button(exercice5, text="Display result", command=resultExo5).grid(column=3,row=0)
+loginErrorex5 = ttk.Label(exercice5, text="")
 loginErrorex5.grid(row=1, column=3, pady=10, padx=10, sticky="w")
 
 #Ip5 entry
-Label(exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+ttk.Label(exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
 IP5 = Entry(exercice5, background=backgroundColorIncorrect)
 IP5.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP5))
 IP5.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask5 entry
-Label(exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+ttk.Label(exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask5 = Entry(exercice5, background=backgroundColorIncorrect)
 Mask5.bind("<KeyRelease>", lambda event : callbackMask(event, Mask5)) 
 Mask5.grid(row=2,column=1, padx=10, pady=10)
@@ -359,33 +348,35 @@ Mask5.grid(row=2,column=1, padx=10, pady=10)
 
 hostEntries = []
 # number of subnet entry
-Label(exercice5, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
+ttk.Label(exercice5, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
 nbSR5 = Entry(exercice5, background=backgroundColorIncorrect)
 nbSR5.bind("<KeyRelease>", callbacknbSR5) 
 nbSR5.grid(row=3,column=0, padx=10, pady=10)
 nbSR5.insert(0, '0')
 
 # total number of host5
-totalNumberOfHost5 = Label(exercice5, text="")
+totalNumberOfHost5 = ttk.Label(exercice5, text="")
 totalNumberOfHost5.grid(row=1, column=3, padx=10, pady=10)
 
 #number of host by subnet5
-numberOfHostBySub5 = Label(exercice5, text="")
+numberOfHostBySub5 = ttk.Label(exercice5, text="")
 numberOfHostBySub5.grid(row=2, column=3, padx=10, pady=10)
 
 # number of subnet5
-numberOfSubnet5 = Label(exercice5, text="")
+numberOfSubnet5 = ttk.Label(exercice5, text="")
 numberOfSubnet5.grid(row=3, column=3, padx=10, pady=10)
 
 
 ####### MenuFrame #######
-menuFrame = Frame(globalFrame)
+menuFrame = ttk.Frame(globalFrame)
 menuFrame.grid(row=0, column=0, sticky=N+S+W+E)
-Button(menuFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0, sticky="w")
-Button(menuFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1, sticky="w")
-Button(menuFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3)).grid(column=0,row=2, sticky="w")
-Button(menuFrame, text="4 - Find network of two IP", command= lambda: display(exercice4)).grid(column=0,row=4, sticky="w")
-Button(menuFrame, text="5 - Subnetting", command= lambda: display(exercice5)).grid(column=0,row=5, sticky="w")
+centerFrame = ttk.Frame(menuFrame)
+centerFrame.pack(anchor='center')
+ttk.Button(centerFrame, text="1 - Network from IP", command=lambda: display(exercice1)).grid(column=0,row=0, sticky="w", pady=5)
+ttk.Button(centerFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2)).grid(column=0,row=1, sticky="w", pady=5)
+ttk.Button(centerFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3)).grid(column=0,row=2, sticky="w", pady=5)
+ttk.Button(centerFrame, text="4 - Find network of two IP", command= lambda: display(exercice4)).grid(column=0,row=4, sticky="w", pady=5)
+ttk.Button(centerFrame, text="5 - Subnetting", command= lambda: display(exercice5)).grid(column=0,row=5, sticky="w", pady=5)
 
 
 #Startint window
