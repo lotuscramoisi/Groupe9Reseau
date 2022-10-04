@@ -119,11 +119,7 @@ def resultExo5():
     numberOfHostBySub5.config( text="Nombre d'hote par SR: " + str(nbHostbySR))
     numberOfSubnet5.config( text="Nombre total de SR: " + str(nbSRbyHost))
     
-def tryToLog():
-    if(userName.get() == "admin" and isPwdCorrect(password.get())):
-        display(menuFrame)
-    else:
-        loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")
+
 
 def callbackIPV4(event, input):
     try:
@@ -140,9 +136,9 @@ def callbackMask(even, mask):
         mask.config({"background": backgroundColorIncorrect})
 
 
+
 def callbacknbSR5(event):
-    if(len(nbSR5.get()) == 0): nbSR5.insert(0, '0')
-    if(not re.fullmatch(r'\d', nbSR5.get()[-1])): nbSR5.delete(len(nbSR5.get())-1)
+    OnlyNumbersCallback(nbSR5)
     for entry in hostEntries:
         entry.destroy()
     hostEntries.clear()
@@ -153,8 +149,7 @@ def callbacknbSR5(event):
         hostEntries.append(e)
 
 
-def display(frame):
-    frame.tkraise()
+
 
 #####################################################
 # END FUNCTION
@@ -200,7 +195,7 @@ password.pack()
 loginError = Label(loginFrame, text="")
 loginError.pack()
 #login Button
-Button(loginFrame, text="Display result", command=tryToLog).pack()
+Button(loginFrame, text="Display result", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
 
 
 

@@ -1,9 +1,12 @@
+from enum import Flag
 import re
 import ipaddress
 from unittest import result
 import math
-from constructionDB import pwdFromDB
+from matplotlib.pyplot import flag
+
 import bcrypt
+import sqlite3
 
 
 def validiteIP(ip):
@@ -109,6 +112,28 @@ def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot
     return "On ne peux pas réaliser de decoupe classique sur base du nombre d'IP par SR avec ces informations"
 
-def isPwdCorrect(pswd):
-    pswdToTry = pswd.encode("utf-8")
-    return bcrypt.checkpw(pswdToTry, pwdFromDB)
+
+
+def OnlyNumbersCallback(input):
+    if(len(input.get()) == 0): input.insert(0, '0')
+    if(not re.fullmatch(r'\d', input.get()[-1])): input.delete(len(input.get())-1)
+
+def tryToLog(userName, password):
+    userName = userName.encode('utf-8')
+    password = password.encode('utf-8')
+    falg = False
+    connection = sqlite3.connect("user.db")
+    db = connection.cursor()
+    db.execute("SELECT * from user ")
+    for user in db.fetchall():
+        if user[0] == userName and bcrypt.checkpw(password, user[1]):
+            Flag = True
+            break
+            
+    connection.commit()
+    connection.close()
+    return flag
+    
+
+def display(frame):
+    frame.tkraise()
