@@ -119,15 +119,15 @@ def OnlyNumbersCallback(input):
     if(not re.fullmatch(r'\d', input.get()[-1])): input.delete(len(input.get())-1)
 
 def tryToLog(userName, password):
-    userName = userName.encode('utf-8')
     password = password.encode('utf-8')
-    falg = False
+    flag = False
     connection = sqlite3.connect("user.db")
     db = connection.cursor()
     db.execute("SELECT * from user ")
     for user in db.fetchall():
+        print(user[0], " ", userName , " ", bcrypt.checkpw(password, user[1]))
         if user[0] == userName and bcrypt.checkpw(password, user[1]):
-            Flag = True
+            flag = True
             break
             
     connection.commit()
