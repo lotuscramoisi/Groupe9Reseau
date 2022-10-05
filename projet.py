@@ -227,7 +227,7 @@ exercice2 =ttk.Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
 exercice2Center = ttk.Frame(exercice2)
 exercice2Center.pack(anchor="center", expand=True)
-ttk.Button(exercice2Center, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice2, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip2 entry
 ttk.Label(font=("Arial", 15),master=exercice2Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
@@ -247,89 +247,93 @@ loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
 networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Network adress: ")
-networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w")
+networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w", columnspan=2)
 
 # Broadcast adress
 broadcastAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Broadcast adress: ")
-broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=2)
 
 # Subnetwork adress
 subnetworkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
-subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
+subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w", columnspan=2)
 
 
 
 ####### Exercice3 #######
 exercice3 =ttk.Frame(globalFrame)
 exercice3.grid(row=0, column=0, sticky=N+S+W+E)
+exercice3Center = ttk.Frame(exercice3)
+exercice3Center.pack(anchor="center", expand=True)
 ttk.Button(exercice3, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip3 entry
-ttk.Label(font=("Arial", 15),master=exercice3, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP3 = Entry( font=("Arial" , 15), master=exercice3, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice3Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP3 = Entry( font=("Arial" , 15), master=exercice3Center, background=backgroundColorIncorrect)
 IP3.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP3))
 IP3.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask3 entry
-ttk.Label(font=("Arial", 15),master=exercice3, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask3 = Entry( font=("Arial" , 15), master=exercice3, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice3Center, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask3 = Entry( font=("Arial" , 15), master=exercice3Center, background=backgroundColorIncorrect)
 Mask3.bind("<KeyRelease>", lambda event : callbackMask(event, Mask3)) 
 Mask3.grid(row=2,column=1, padx=10, pady=10)
 
 # Network3 Entry
-ttk.Label(font=("Arial", 15),master=exercice3, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
-Network3 = Entry( font=("Arial" , 15), master=exercice3, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice3Center, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
+Network3 = Entry( font=("Arial" , 15), master=exercice3Center, background=backgroundColorIncorrect)
 Network3.bind("<KeyRelease>", lambda event : callbackIPV4(event, Network3))
 Network3.grid(row=3,column=1, padx=10, pady=10)
 
-ttk.Button(exercice3, text="Display result", command=resultExo3, style="my.TButton").grid(column=0,row=4)
-loginErrorex3 = ttk.Label(font=("Arial", 15),master=exercice3, text="")
+ttk.Button(exercice3Center, text="Display result", command=resultExo3, style="my.TButton").grid(column=0,row=4)
+loginErrorex3 = ttk.Label(font=("Arial", 15),master=exercice3Center, text="")
 loginErrorex3.grid(row=4, column=2, pady=10, padx=10, sticky="w")
 
 # isSecondIpInFirstNetwork
-isSecondIpInFirstNetwork = ttk.Label(font=("Arial", 15),master=exercice3, text="")
-isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+isSecondIpInFirstNetwork = ttk.Label(font=("Arial", 15),master=exercice3Center, text="")
+isSecondIpInFirstNetwork.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=3)
 
 
 
 ####### Exercice4 #######
 exercice4 =ttk.Frame(globalFrame)
 exercice4.grid(row=0, column=0, sticky=N+S+W+E)
+exercice4Center = ttk.Frame(exercice4)
+exercice4Center.pack(anchor="center", expand=True)
 ttk.Button(exercice4, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip4 entry
-ttk.Label(font=("Arial", 15),master=exercice4, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
-IP4 = Entry( font=("Arial" , 15), master=exercice4, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice4Center, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
+IP4 = Entry( font=("Arial" , 15), master=exercice4Center, background=backgroundColorIncorrect)
 IP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP4))
 IP4.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask4 entry
-ttk.Label(font=("Arial", 15),master=exercice4, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
-Mask4 = Entry( font=("Arial" , 15), master=exercice4, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice4Center, text="Masque 1").grid(row=2,column=0, padx=10, pady=10)
+Mask4 = Entry( font=("Arial" , 15), master=exercice4Center, background=backgroundColorIncorrect)
 Mask4.bind("<KeyRelease>", lambda event : callbackMask(event, Mask4)) 
 Mask4.grid(row=2,column=1, padx=10, pady=10)
 
 #Ip4 entry
-ttk.Label(font=("Arial", 15),master=exercice4, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
-secondIP4 = Entry( font=("Arial" , 15), master=exercice4, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice4Center, text="IPV4 2").grid(row=1,column=3, padx=10, pady=10)
+secondIP4 = Entry( font=("Arial" , 15), master=exercice4Center, background=backgroundColorIncorrect)
 secondIP4.bind("<KeyRelease>", lambda event : callbackIPV4(event, secondIP4))
 secondIP4.grid(row=1, column=4, padx=10, pady=10)
 
 #Mask4 entry
-ttk.Label(font=("Arial", 15),master=exercice4, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
-secondMask4 = Entry( font=("Arial" , 15), master=exercice4, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice4Center, text="Masque 2").grid(row=2,column=3, padx=10, pady=10)
+secondMask4 = Entry( font=("Arial" , 15), master=exercice4Center, background=backgroundColorIncorrect)
 secondMask4.bind("<KeyRelease>", lambda event : callbackMask(event, secondMask4)) 
 secondMask4.grid(row=2,column=4, padx=10, pady=10)
 
-ttk.Button(exercice4, text="Display result", command=resultExo4, style="my.TButton").grid(column=0,row=3)
-loginErrorex4 = ttk.Label(font=("Arial", 15),master=exercice4, text="")
+ttk.Button(exercice4Center, text="Display result", command=resultExo4, style="my.TButton").grid(column=0,row=3)
+loginErrorex4 = ttk.Label(font=("Arial", 15),master=exercice4Center, text="")
 loginErrorex4.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # result Exercice 4
-exercice4Result1 = ttk.Label(font=("Arial", 15),master=exercice4, text="")
-exercice4Result1.grid(row=4,column=0, pady=10, padx=10, sticky="w")
-exercice4Result2 = ttk.Label(font=("Arial", 15),master=exercice4, text="")
-exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w")
+exercice4Result1 = ttk.Label(font=("Arial", 15),master=exercice4Center, text="")
+exercice4Result1.grid(row=4,column=0, pady=10, padx=10, sticky="w", columnspan=5)
+exercice4Result2 = ttk.Label(font=("Arial", 15),master=exercice4Center, text="")
+exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=5)
 
 
 
