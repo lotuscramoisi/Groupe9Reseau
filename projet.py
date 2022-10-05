@@ -23,7 +23,7 @@ maskFromClass = {
 }
 
 backgroundColorCorrect = "Green"
-backgroundColorIncorrect = "Red"
+backgroundColorIncorrect = "darkred"
 
 #####################################################
 # FUNCTION
@@ -225,34 +225,36 @@ numberOfHostResult.pack(fill="x", padx=5, pady=5)
 ####### Exercice2 #######
 exercice2 =ttk.Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
-ttk.Button(exercice2, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+exercice2Center = ttk.Frame(exercice2)
+exercice2Center.pack(anchor="center", expand=True)
+ttk.Button(exercice2Center, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip2 entry
-ttk.Label(font=("Arial", 15),master=exercice2, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP2 = Entry( font=("Arial" , 15), master=exercice2, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice2Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP2 = Entry( font=("Arial" , 15), master=exercice2Center, background=backgroundColorIncorrect)
 IP2.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP2))
 IP2.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask2 entry
-ttk.Label(font=("Arial", 15),master=exercice2, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask2 = Entry( font=("Arial" , 15), master=exercice2, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice2Center, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask2 = Entry( font=("Arial" , 15), master=exercice2Center, background=backgroundColorIncorrect)
 Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
-ttk.Button(exercice2, text="Display result", command=resultExo2, style="my.TButton").grid(row=3, column=0, padx=10, pady=10)
-loginErrorex2 = ttk.Label(font=("Arial", 15),master=exercice2, text="")
+ttk.Button(exercice2Center, text="Display result", command=resultExo2, style="my.TButton").grid(row=3, column=0, padx=10, pady=10)
+loginErrorex2 = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
 loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
-networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2, text="Network adress: ")
+networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Network adress: ")
 networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w")
 
 # Broadcast adress
-broadcastAdressResult = ttk.Label(font=("Arial", 15),master=exercice2, text="Broadcast adress: ")
+broadcastAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Broadcast adress: ")
 broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w")
 
 # Subnetwork adress
-subnetworkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2, text="")
+subnetworkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
 subnetworkAdressResult.grid(row=6,column=0, pady=10, padx=10, sticky="w")
 
 
