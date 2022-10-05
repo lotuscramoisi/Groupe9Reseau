@@ -98,8 +98,7 @@ def crossNetworkCheck(ip1, mask1, ip2, mask2):
     
     return result
 
-def getNbHostByIpAndMask(ip, mask):
-    return sum(1 for _ in ipaddress.IPv4Network(ip+"/"+mask, False).hosts())
+
     
 def subnetingByNbSR(nbHostTot, nbSR):
     nbHostBySR = math.floor(nbHostTot / nbSR)
@@ -137,3 +136,11 @@ def tryToLog(userName, password):
 
 def display(frame):
     frame.tkraise()
+    
+def getNbHostTot(mask):
+    maskTab = strIpAndMaskToTab(mask)
+    totalofZero = 0
+    for oct in maskTab:
+        totalofZero += str(decimalTobinary(oct)).count('0')
+    return ((2**totalofZero)-2)
+

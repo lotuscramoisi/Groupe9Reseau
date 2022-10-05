@@ -110,7 +110,7 @@ def resultExo5():
         loginErrorex5.config(text="Un des champs n'est pas remplis correctement")
         return
     loginErrorex5.config(text="")
-    totalHost = getNbHostByIpAndMask(IP5.get(), Mask5.get())
+    totalHost = getNbHostTot(Mask5.get())
     nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()))
     nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
     totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
