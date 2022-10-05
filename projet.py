@@ -22,8 +22,8 @@ maskFromClass = {
     "E": "NOT DEFINED"
 }
 
-backgroundColorCorrect = "White"
-backgroundColorIncorrect = "Gray"
+backgroundColorCorrect = "Green"
+backgroundColorIncorrect = "Red"
 
 #####################################################
 # FUNCTION
