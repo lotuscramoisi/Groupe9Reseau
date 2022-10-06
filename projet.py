@@ -14,13 +14,7 @@ import pathlib, os
 # CONST
 #####################################################
 
-maskFromClass = {
-    "A": "255.0.0.0",
-    "B": "255.255.0.0",
-    "C": "255.255.255.0",
-    "D": "NOT DEFINED",
-    "E": "NOT DEFINED"
-}
+
 
 backgroundColorCorrect = "Green"
 backgroundColorIncorrect = "darkred"
@@ -56,7 +50,7 @@ def resultExo1():
     numberOfHostResult.config(text= "Number of host: "+ str(info["nbHost"]))
 
 def resultExo2():
-    if((IP2["background"]== backgroundColorIncorrect) | (Mask2["background"]== backgroundColorIncorrect)):
+    if((IP2["background"]== backgroundColorIncorrect) or (Mask2["background"]== backgroundColorIncorrect)):
         loginErrorex2.config(text="Un des champs n'est pas remplis correctement")
         return
     #Initialisation 
@@ -66,9 +60,14 @@ def resultExo2():
     subnetworkAdressResult.config( text="")
 
     ip = strIpAndMaskToTab(IP2.get())
-
     # class determination
     ipClass = findClassOfIp(ip)
+    print(Mask2.get(), ipClass, isMaskOfRightClass(Mask2.get(), ipClass) )
+    if(not(isMaskOfRightClass(Mask2.get(), ipClass))):
+        loginErrorex2.config(text="Le masque n'appartient pas a la classe de l'ip (" + ipClass+")")
+        return
+
+    
     # Network creation with user mask
     net = ipaddress.IPv4Network(IP2.get() + "/"+ maskFromClass[ipClass], False)
 

@@ -7,7 +7,18 @@ from matplotlib.pyplot import flag
 
 import bcrypt
 import sqlite3
+####
+# CONST
+####
+maskFromClass = {
+    "A": "255.0.0.0",
+    "B": "255.255.0.0",
+    "C": "255.255.255.0",
+    "D": "NOT DEFINED",
+    "E": "NOT DEFINED"
+}
 
+#####
 
 def validiteIP(ip):
     regex = "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$"
@@ -60,6 +71,20 @@ def getInfoByClass(classOfIp):
         info["nbHost"] = (2**8) - 2
         
     return info
+
+def isMaskOfRightClass(mask, classOfIp):
+    maskAsTab = strIpAndMaskToTab(mask)
+    maskOfClassAsTab = strIpAndMaskToTab(maskFromClass[classOfIp])
+    maskAsBinary = ""
+    maskOfClassAsBinary = ""
+    for i in range(len(maskAsTab)):
+        maskAsBinary += decimalTobinary(maskAsTab[i])
+        maskOfClassAsBinary += decimalTobinary(maskOfClassAsTab[i])
+        
+    return (maskAsBinary >= maskOfClassAsBinary)
+        
+        
+        
 
 def getSubNet(IpAdress, mask):
     result = []
@@ -144,4 +169,5 @@ def getNbHostTot(mask):
     for oct in maskTab:
         totalofZero += str(decimalTobinary(oct)).count('0')
     return ((2**totalofZero)-2)
+
 
