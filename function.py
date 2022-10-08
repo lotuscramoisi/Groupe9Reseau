@@ -133,12 +133,15 @@ def crossNetworkCheck(ip1, mask1, ip2, mask2):
 
     
 def subnetingByNbSR(nbHostTot, nbSR, nbHostBySR):
+    if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
     maxHost = max(nbHostBySR)
+    
     nbHostBySR = math.floor(nbHostTot / nbSR)
     if(nbHostBySR >= 4 and nbHostBySR >= maxHost): return nbHostBySR
     return "On ne peux pas réaliser de decoupe classique sur base du nombre de SR avec ces informations"
 
 def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
+    if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
     maxHost = max(nbHostBySR)
     nbSRTot = math.floor(nbHostTot/maxHost)
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot

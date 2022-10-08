@@ -26,21 +26,21 @@ def resultExo1():
         return
     #### INTERFACE RESET
     loginErrorex1.config(text="")
-    classResult.config(text= "Class: ")
-    numberOfNetworkResult.config( text="Number of network: ")
-    numberOfHostResult.config( text="Number of host: ")
+    classResult.config(text= "Classe: ")
+    numberOfNetworkResult.config( text="Nombre de réseaux: ")
+    numberOfHostResult.config( text="Nombre d'hotes: ")
     
     ip = strIpAndMaskToTab(IP1.get())
     
     # class determination
     ipClass = findClassOfIp(ip)
-    classResult.config(text= "Class: "+ ipClass)
+    classResult.config(text= "Classe: "+ ipClass)
 
     info = getInfoByClass(ipClass)
    
     # information display
-    numberOfNetworkResult.config(text= "Number of network: "+ str(info["nbNetwork"]))
-    numberOfHostResult.config(text= "Number of host: "+ str(info["nbHost"]))
+    numberOfNetworkResult.config(text= "Nombre de réseaux: "+ str(info["nbNetwork"]))
+    numberOfHostResult.config(text= "Nombre d'hotes: "+ str(info["nbHost"]))
 
 def resultExo2():
     if((IP2["background"]== backgroundColorIncorrect) or (Mask2["background"]== backgroundColorIncorrect)):
@@ -48,8 +48,8 @@ def resultExo2():
         return
     #Initialisation 
     loginErrorex2.config(text="")
-    networkAdressResult.config( text="Network adress: ")
-    broadcastAdressResult.config( text="Broadcast adress: ")
+    networkAdressResult.config( text="Adresse de réseau: ")
+    broadcastAdressResult.config( text="Adresse de broadcast: ")
     subnetworkAdressResult.config( text="")
 
     ip = strIpAndMaskToTab(IP2.get())
@@ -65,14 +65,14 @@ def resultExo2():
     net = ipaddress.IPv4Network(IP2.get() + "/"+ maskFromClass[ipClass], False)
 
     #Network and Broadcast adress display
-    networkAdressResult.config(text= "Network address: "+ str(str(net.network_address)))
-    broadcastAdressResult.config(text= "Broadcast address: "+ str(str(net.broadcast_address)))
+    networkAdressResult.config(text= "Adresse de réseau: "+ str(str(net.network_address)))
+    broadcastAdressResult.config(text= "Adresse de broadcast: "+ str(str(net.broadcast_address)))
 
     # if it's a subnet
     if(Mask2.get() != maskFromClass[ipClass]):
         # Subnet definition
         net = ipaddress.IPv4Network(IP2.get() + "/"+ Mask2.get(), False)
-        subnetworkAdressResult.config(text= "You are in a subnet !\nSubnetwork adress: " + str(net.network_address))
+        subnetworkAdressResult.config(text= "Vous êtes dans un sous-réseau !\nAdresse de sous-réseau: " + str(net.network_address))
 
 def resultExo3():
     if((IP3["background"]== backgroundColorIncorrect) | (Mask3["background"]== backgroundColorIncorrect) | (Network3["background"]== backgroundColorIncorrect)):
@@ -84,8 +84,8 @@ def resultExo3():
     #network creation
     net = ipaddress.IPv4Network(IP3.get() + "/"+ Mask3.get(), False)
     # Tell user if the ip/mask combination is in the network he entered
-    if(networkAdressCheck(net, Network3.get())): isSecondIpInFirstNetwork.config(text="l'ip " + IP3.get() + " appartient au reseau " + Network3.get())
-    else: isSecondIpInFirstNetwork.config(text="l'ip " + IP3.get() + " n'appartient pas au reseau " + Network3.get())
+    if(networkAdressCheck(net, Network3.get())): isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " appartient au reseau " + Network3.get())
+    else: isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " n'appartient pas au reseau " + Network3.get())
 
 def resultExo4():
     if((IP4["background"]== backgroundColorIncorrect) | (Mask4["background"]== backgroundColorIncorrect) | (secondIP4["background"]== backgroundColorIncorrect) | (secondMask4["background"]== backgroundColorIncorrect)):
@@ -103,11 +103,11 @@ def resultExo5():
         return
     loginErrorex5.config(text="")
     totalHost = getNbHostTot(Mask5.get())
-    nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()))
+    nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()), list(map(lambda e: int(e.get()), hostEntries)))
     nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
     totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
-    numberOfHostBySub5.config( text="Nombre d'hote par SR: " + str(nbHostbySR))
-    numberOfSubnet5.config( text="Nombre total de SR: " + str(nbSRbyHost))
+    numberOfHostBySub5.config( text="Decoupe sur base du nombre de SR\nNombre d'hote par SR: " + str(nbHostbySR))
+    numberOfSubnet5.config( text="Decoupe sur base du nombre d'hote par SR\nNombre total de SR: " + str(nbSRbyHost))
     
 
 
@@ -168,20 +168,20 @@ loginFrame = ttk.Frame(globalFrame)
 loginFrame.grid(row=0, column=0, sticky=N+S+W+E)
 loginFrameCenter = ttk.Frame(loginFrame)
 loginFrameCenter.pack(anchor="center", expand=True)
-ttk.Label(master=loginFrameCenter, text="Login", font=("Arial", 35)).pack(pady=35)
+ttk.Label(master=loginFrameCenter, text="Connexion", font=("Arial", 35)).pack(pady=35)
  # Username
-ttk.Label(loginFrameCenter, text="Username : ", font=("Arial", 17)).pack(pady=2)
+ttk.Label(loginFrameCenter, text="Nom d'utilisateur: ", font=("Arial", 17)).pack(pady=2)
 userName = Entry( font=("Arial" , 15), master=loginFrameCenter)
 userName.pack()
 # Password
-ttk.Label(master=loginFrameCenter, text="Password : ", font=("Arial", 17)).pack(pady=2)
+ttk.Label(master=loginFrameCenter, text="Mot de passe: ", font=("Arial", 17)).pack(pady=2)
 password = Entry( font=("Arial" , 15), master=loginFrameCenter, show="*")
 password.pack()
 # error display
 loginError = ttk.Label(master=loginFrameCenter, text="", font=("Arial", 13))
 loginError.pack(pady=5)
 #login Button
-ttk.Button(loginFrameCenter, text="Login", style="my.TButton", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
+ttk.Button(loginFrameCenter, text="Se connecter", style="my.TButton", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
 
 
 
@@ -191,7 +191,7 @@ exercice1.grid(row=0, column=0, sticky=N+S+W+E)
 exercice1Center = ttk.Frame(exercice1)
 exercice1Center.pack(anchor="center", expand=True)
 #back button
-ttk.Button(exercice1, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice1, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 #ip Entry
 ttk.Label(font=("Arial", 17),master=exercice1Center, text="IPV4").pack(padx=5, pady=5)
 IP1 = Entry( font=("Arial" , 15), master=exercice1Center, background=backgroundColorIncorrect)
@@ -199,7 +199,7 @@ IP1.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP1))
 IP1.pack(fill="x", padx=15, pady=15)
 
 #Obtain result
-ttk.Button(master=exercice1Center, text="Display result", command=resultExo1, style="my.TButton").pack(fill="x")
+ttk.Button(master=exercice1Center, text="Calculer", command=resultExo1, style="my.TButton").pack(fill="x")
 loginErrorex1 = ttk.Label(font=("Arial", 15),master=exercice1Center, text="")
 loginErrorex1.pack(fill="x")
 
@@ -207,10 +207,10 @@ loginErrorex1.pack(fill="x")
 classResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Class: ")
 classResult.pack(fill="x", padx=5, pady=5)
 # Number of network
-numberOfNetworkResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Number of network: ")
+numberOfNetworkResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Nombre de réseaux: ")
 numberOfNetworkResult.pack(fill="x", padx=5, pady=5)
 # Number of Host
-numberOfHostResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Number of host: ")
+numberOfHostResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Nombre d'hotes: ")
 numberOfHostResult.pack(fill="x", padx=5, pady=5)
 
 
@@ -219,7 +219,7 @@ exercice2 =ttk.Frame(globalFrame)
 exercice2.grid(row=0, column=0, sticky=N+S+W+E)
 exercice2Center = ttk.Frame(exercice2)
 exercice2Center.pack(anchor="center", expand=True)
-ttk.Button(exercice2, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice2, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip2 entry
 ttk.Label(font=("Arial", 15),master=exercice2Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
@@ -233,16 +233,16 @@ Mask2 = Entry( font=("Arial" , 15), master=exercice2Center, background=backgroun
 Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
-ttk.Button(exercice2Center, text="Display result", command=resultExo2, style="my.TButton").grid(row=3, column=0, padx=10, pady=10)
+ttk.Button(exercice2Center, text="Calculer", command=resultExo2, style="my.TButton").grid(row=3, column=0, padx=10, pady=10)
 loginErrorex2 = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
 loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
-networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Network adress: ")
+networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Adresse de réseau: ")
 networkAdressResult.grid(row=4,column=0, pady=10, padx=10, sticky="w", columnspan=2)
 
 # Broadcast adress
-broadcastAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Broadcast adress: ")
+broadcastAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Adresse de broadcast: ")
 broadcastAdressResult.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=2)
 
 # Subnetwork adress
@@ -256,7 +256,7 @@ exercice3 =ttk.Frame(globalFrame)
 exercice3.grid(row=0, column=0, sticky=N+S+W+E)
 exercice3Center = ttk.Frame(exercice3)
 exercice3Center.pack(anchor="center", expand=True)
-ttk.Button(exercice3, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice3, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip3 entry
 ttk.Label(font=("Arial", 15),master=exercice3Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
@@ -271,12 +271,12 @@ Mask3.bind("<KeyRelease>", lambda event : callbackMask(event, Mask3))
 Mask3.grid(row=2,column=1, padx=10, pady=10)
 
 # Network3 Entry
-ttk.Label(font=("Arial", 15),master=exercice3Center, text="IP Reseau").grid(row=3,column=0, padx=10, pady=10)
+ttk.Label(font=("Arial", 15),master=exercice3Center, text="IP Réseau").grid(row=3,column=0, padx=10, pady=10)
 Network3 = Entry( font=("Arial" , 15), master=exercice3Center, background=backgroundColorIncorrect)
 Network3.bind("<KeyRelease>", lambda event : callbackIPV4(event, Network3))
 Network3.grid(row=3,column=1, padx=10, pady=10)
 
-ttk.Button(exercice3Center, text="Display result", command=resultExo3, style="my.TButton").grid(column=0,row=4)
+ttk.Button(exercice3Center, text="Calculer", command=resultExo3, style="my.TButton").grid(column=0,row=4)
 loginErrorex3 = ttk.Label(font=("Arial", 15),master=exercice3Center, text="")
 loginErrorex3.grid(row=4, column=2, pady=10, padx=10, sticky="w")
 
@@ -291,7 +291,7 @@ exercice4 =ttk.Frame(globalFrame)
 exercice4.grid(row=0, column=0, sticky=N+S+W+E)
 exercice4Center = ttk.Frame(exercice4)
 exercice4Center.pack(anchor="center", expand=True)
-ttk.Button(exercice4, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice4, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
 #Ip4 entry
 ttk.Label(font=("Arial", 15),master=exercice4Center, text="IPV4 1").grid(row=1,column=0, padx=10, pady=10)
@@ -317,7 +317,7 @@ secondMask4 = Entry( font=("Arial" , 15), master=exercice4Center, background=bac
 secondMask4.bind("<KeyRelease>", lambda event : callbackMask(event, secondMask4)) 
 secondMask4.grid(row=2,column=4, padx=10, pady=10)
 
-ttk.Button(exercice4Center, text="Display result", command=resultExo4, style="my.TButton").grid(column=0,row=3)
+ttk.Button(exercice4Center, text="Calculer", command=resultExo4, style="my.TButton").grid(column=0,row=3)
 loginErrorex4 = ttk.Label(font=("Arial", 15),master=exercice4Center, text="")
 loginErrorex4.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
@@ -332,9 +332,9 @@ exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=5
 ####### Exercice5 #######
 exercice5 =ttk.Frame(globalFrame)
 exercice5.grid(row=0, column=0, sticky=N+S+W+E)
-ttk.Button(exercice5, text="Back", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
+ttk.Button(exercice5, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
-ttk.Button(exercice5, text="Display result", command=resultExo5, style="my.TButton").grid(column=3,row=0)
+ttk.Button(exercice5, text="Calculer", command=resultExo5, style="my.TButton").grid(column=3,row=0)
 loginErrorex5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
 loginErrorex5.grid(row=1, column=3, pady=10, padx=10, sticky="w")
 
@@ -379,11 +379,11 @@ centerFrame = ttk.Frame(menuFrame)
 centerFrame.pack(anchor='center', expand=True)
 
 
-ttk.Button(centerFrame, text="1 - Classes information from IP adresses", command=lambda: display(exercice1), style="my.TButton").grid(column=0,row=0, sticky="w", pady=5)
-ttk.Button(centerFrame, text="2 - ClassFull Network and Subnetwork", command= lambda: display(exercice2), style="my.TButton").grid(column=0,row=1, sticky="w", pady=5)
-ttk.Button(centerFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3), style="my.TButton").grid(column=0,row=2, sticky="w", pady=5)
-ttk.Button(centerFrame, text="4 - Find network of two IP", command= lambda: display(exercice4), style="my.TButton").grid(column=0,row=4, sticky="w", pady=5)
-ttk.Button(centerFrame, text="5 - Subnetting", command= lambda: display(exercice5), style="my.TButton").grid(column=0,row=5, sticky="w", pady=5)
+ttk.Button(centerFrame, text="1 - Information sur la classe d'une adresse IP", command=lambda: display(exercice1), style="my.TButton").grid(column=0,row=0, sticky="w", pady=5)
+ttk.Button(centerFrame, text="2 - Réseau et sous-réseau en classfull", command= lambda: display(exercice2), style="my.TButton").grid(column=0,row=1, sticky="w", pady=5)
+ttk.Button(centerFrame, text="3 - Déterminer si une IP est un dans réseau", command= lambda: display(exercice3), style="my.TButton").grid(column=0,row=2, sticky="w", pady=5)
+ttk.Button(centerFrame, text="4 - Comparaison d'IP de 2 réseau", command= lambda: display(exercice4), style="my.TButton").grid(column=0,row=4, sticky="w", pady=5)
+ttk.Button(centerFrame, text="5 - Découpe de sous-réseau", command= lambda: display(exercice5), style="my.TButton").grid(column=0,row=5, sticky="w", pady=5)
 
 
 
