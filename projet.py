@@ -36,11 +36,6 @@ def resultExo1():
     ipClass = findClassOfIp(ip)
     classResult.config(text= "Class: "+ ipClass)
 
-
-    # Network creation with the mask of the class
-    print(maskFromClass[ipClass])
-    net = ipaddress.IPv4Network(IP1.get() + "/"+ maskFromClass[ipClass], False)
-
     info = getInfoByClass(ipClass)
    
     # information display
