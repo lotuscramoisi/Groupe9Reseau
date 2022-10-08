@@ -22,6 +22,10 @@ maskFromClass = {
     "E": "NOT DEFINED"
 }
 
+
+backgroundColorCorrect = "Green"
+backgroundColorIncorrect = "darkred"
+
 #####
 
 def validiteIP(ip):
@@ -167,7 +171,6 @@ def tryToLog(userName, password):
     db = connection.cursor()
     db.execute("SELECT * from user ")
     for user in db.fetchall():
-        print(user[0], " ", userName , " ", bcrypt.checkpw(password, user[1]))
         if user[0] == userName and bcrypt.checkpw(password, user[1]):
             flag = True
             break

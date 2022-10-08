@@ -7,14 +7,6 @@ from ctypes import windll
 from function import *
 from ttkthemes import ThemedTk
 
-#####################################################
-# CONST
-#####################################################
-
-
-
-backgroundColorCorrect = "Green"
-backgroundColorIncorrect = "darkred"
 
 #####################################################
 # FUNCTION
