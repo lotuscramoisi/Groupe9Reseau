@@ -380,7 +380,7 @@ centerFrame.pack(anchor='center', expand=True)
 
 
 ttk.Button(centerFrame, text="1 - Classes information from IP adresses", command=lambda: display(exercice1), style="my.TButton").grid(column=0,row=0, sticky="w", pady=5)
-ttk.Button(centerFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2), style="my.TButton").grid(column=0,row=1, sticky="w", pady=5)
+ttk.Button(centerFrame, text="2 - ClassFull Network and Subnetwork", command= lambda: display(exercice2), style="my.TButton").grid(column=0,row=1, sticky="w", pady=5)
 ttk.Button(centerFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3), style="my.TButton").grid(column=0,row=2, sticky="w", pady=5)
 ttk.Button(centerFrame, text="4 - Find network of two IP", command= lambda: display(exercice4), style="my.TButton").grid(column=0,row=4, sticky="w", pady=5)
 ttk.Button(centerFrame, text="5 - Subnetting", command= lambda: display(exercice5), style="my.TButton").grid(column=0,row=5, sticky="w", pady=5)
