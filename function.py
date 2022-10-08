@@ -57,18 +57,24 @@ def findClassOfIp(ipAsTab):
     
 def getInfoByClass(classOfIp):
     info = {
-        "nbNetwork": 0,
-        "nbHost": 0
+        "nbNetwork": "",
+        "nbHost": ""
     }
     if(classOfIp =="A"): 
-        info["nbNetwork"] = 2**7
-        info["nbHost"] = (2**24) - 2
+        info["nbNetwork"] = str(2**7)
+        info["nbHost"] = str((2**24) - 2)
     elif(classOfIp =="B"):
-        info["nbNetwork"] = 2**14
-        info["nbHost"] = (2**16) - 2
+        info["nbNetwork"] = str(2**14)
+        info["nbHost"] = str((2**16) - 2)
     elif(classOfIp =="C"):
-        info["nbNetwork"] = 2**21
-        info["nbHost"] = (2**8) - 2
+        info["nbNetwork"] = str(2**21)
+        info["nbHost"] = str((2**8) - 2)
+    elif(classOfIp =="D"):
+        info["nbNetwork"] = "N/A"
+        info["nbHost"] = "Multicasting"
+    elif(classOfIp =="E"):
+        info["nbNetwork"] = "N/A"
+        info["nbHost"] = "Reserved/Experimental"
         
     return info
 

@@ -2,13 +2,10 @@
 
 import ipaddress
 from tkinter import *
-from tkinter.font import Font
 import tkinter.ttk as ttk
 from ctypes import windll
 from function import *
 from ttkthemes import ThemedTk
-import tkinter.font as font
-import pathlib, os
 
 #####################################################
 # CONST
@@ -188,7 +185,7 @@ password.pack()
 loginError = ttk.Label(master=loginFrameCenter, text="", font=("Arial", 13))
 loginError.pack(pady=5)
 #login Button
-ttk.Button(loginFrameCenter, text="Display result", style="my.TButton", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
+ttk.Button(loginFrameCenter, text="Login", style="my.TButton", command=lambda: display(menuFrame) if tryToLog(userName.get(), password.get()) else loginError.config(text="Nom d'utilisateur ou mot de passe incorrect")).pack()
 
 
 
@@ -386,7 +383,7 @@ centerFrame = ttk.Frame(menuFrame)
 centerFrame.pack(anchor='center', expand=True)
 
 
-ttk.Button(centerFrame, text="1 - Network from IP", command=lambda: display(exercice1), style="my.TButton").grid(column=0,row=0, sticky="w", pady=5)
+ttk.Button(centerFrame, text="1 - Classes information from IP adresses", command=lambda: display(exercice1), style="my.TButton").grid(column=0,row=0, sticky="w", pady=5)
 ttk.Button(centerFrame, text="2 - Network Or SubNetwork from IP And Mask ", command= lambda: display(exercice2), style="my.TButton").grid(column=0,row=1, sticky="w", pady=5)
 ttk.Button(centerFrame, text="3 - Find if IP is in a network", command= lambda: display(exercice3), style="my.TButton").grid(column=0,row=2, sticky="w", pady=5)
 ttk.Button(centerFrame, text="4 - Find network of two IP", command= lambda: display(exercice4), style="my.TButton").grid(column=0,row=4, sticky="w", pady=5)
