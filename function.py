@@ -1,6 +1,7 @@
 from enum import Flag
 import re
 import ipaddress
+from types import NoneType
 from unittest import result
 import math
 from matplotlib.pyplot import flag
@@ -57,18 +58,18 @@ def findClassOfIp(ipAsTab):
     
 def getInfoByClass(classOfIp):
     info = {
-        "nbNetwork": "",
-        "nbHost": ""
+        "nbNetwork" : NoneType,
+        "nbHost": NoneType
     }
     if(classOfIp =="A"): 
-        info["nbNetwork"] = str(2**7)
-        info["nbHost"] = str((2**24) - 2)
+        info["nbNetwork"] = 2**7
+        info["nbHost"] = (2**24) - 2
     elif(classOfIp =="B"):
-        info["nbNetwork"] = str(2**14)
-        info["nbHost"] = str((2**16) - 2)
+        info["nbNetwork"] = 2**14
+        info["nbHost"] = (2**16) - 2
     elif(classOfIp =="C"):
-        info["nbNetwork"] = str(2**21)
-        info["nbHost"] = str((2**8) - 2)
+        info["nbNetwork"] = 2**21
+        info["nbHost"] = (2**8) - 2
     elif(classOfIp =="D"):
         info["nbNetwork"] = "N/A"
         info["nbHost"] = "Multicasting"
