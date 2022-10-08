@@ -1,6 +1,7 @@
 from enum import Flag
 import re
 import ipaddress
+from tokenize import Number
 from types import NoneType
 from unittest import result
 import math
@@ -8,6 +9,8 @@ from matplotlib.pyplot import flag
 
 import bcrypt
 import sqlite3
+
+from traitlets import Int
 ####
 # CONST
 ####
@@ -119,34 +122,38 @@ def crossNetworkCheck(ip1, mask1, ip2, mask2):
     net2 = ipaddress.IPv4Network(ip2 + "/" + mask2, False)
     
     if(ipaddress.ip_address(ip2) in net1):
-        result.append("le reseau " + ip1 + "/" + mask1 + " considere que l'ip " + ip2 + " est dans son reseau")
+        result.append("Le reseau " + ip1 + "/" + mask1 + " considère que l'ip " + ip2 + " est dans son reseau")
     else:
-        result.append("le reseau " + ip1 + "/" + mask1 + " considere que l'ip " +  ip2 + " n'est pas dans son reseau")
+        result.append("Le reseau " + ip1 + "/" + mask1 + " considère que l'ip " +  ip2 + " n'est pas dans son reseau")
     
     if(ipaddress.ip_address(ip1) in net2):
-        result.append("le reseau " + ip2 + "/" + mask2 + " considere que l'ip " +  ip1 +  " est dans son reseau")
+        result.append("Le reseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " est dans son reseau")
     else:
-        result.append("le reseau " + ip2 + "/" + mask2 + " considere que l'ip " +  ip1 +  " n'est pas dans son reseau")
+        result.append("Le reseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " n'est pas dans son reseau")
     
     return result
 
 
     
 def subnetingByNbSR(nbHostTot, nbSR, nbHostBySR):
+    
     if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
     maxHost = max(nbHostBySR)
     
     nbHostBySR = math.floor(nbHostTot / nbSR)
-    if(nbHostBySR >= 4 and nbHostBySR >= maxHost): return nbHostBySR
+    if(nbHostBySR >= 4): return nbHostBySR
     return "On ne peux pas réaliser de decoupe classique sur base du nombre de SR avec ces informations"
+    
+     
 
 def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
+   
     if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
     maxHost = max(nbHostBySR)
     nbSRTot = math.floor(nbHostTot/maxHost)
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot
     return "On ne peux pas réaliser de decoupe classique sur base du nombre d'IP par SR avec ces informations"
-
+    
 
 
 def OnlyNumbersCallback(input):
@@ -174,6 +181,7 @@ def display(frame):
     frame.tkraise()
     
 def getNbHostTot(mask):
+    if len(mask) <=2: return (2**(32-int(mask))-2)
     maskTab = strIpAndMaskToTab(mask)
     totalofZero = 0
     for oct in maskTab:

@@ -44,10 +44,10 @@ def resultExo1():
 
 def resultExo2():
     if((IP2["background"]== backgroundColorIncorrect) or (Mask2["background"]== backgroundColorIncorrect)):
-        loginErrorex2.config(text="Un des champs n'est pas remplis correctement")
+        errorEx2.config(text="Un des champs n'est pas remplis correctement")
         return
     #Initialisation 
-    loginErrorex2.config(text="")
+    errorEx2.config(text="")
     networkAdressResult.config( text="Adresse de réseau: ")
     broadcastAdressResult.config( text="Adresse de broadcast: ")
     subnetworkAdressResult.config( text="")
@@ -57,7 +57,7 @@ def resultExo2():
     ipClass = findClassOfIp(ip)
     print(Mask2.get(), ipClass, isMaskOfRightClass(Mask2.get(), ipClass) )
     if(not(isMaskOfRightClass(Mask2.get(), ipClass))):
-        loginErrorex2.config(text="Le masque n'appartient pas a la classe de l'ip (" + ipClass+")")
+        errorEx2.config(text="Le masque n'appartient pas a la classe de l'ip (" + ipClass+")")
         return
 
     
@@ -103,12 +103,14 @@ def resultExo5():
         return
     loginErrorex5.config(text="")
     totalHost = getNbHostTot(Mask5.get())
-    nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()), list(map(lambda e: int(e.get()), hostEntries)))
-    nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
-    totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
-    numberOfHostBySub5.config( text="Decoupe sur base du nombre de SR\nNombre d'hote par SR: " + str(nbHostbySR))
-    numberOfSubnet5.config( text="Decoupe sur base du nombre d'hote par SR\nNombre total de SR: " + str(nbSRbyHost))
-    
+    try:
+        nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()), list(map(lambda e: int(e.get()), hostEntries)))
+        nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
+        totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
+        numberOfHostBySub5.config( text="Decoupe sur base du nombre de SR\nNombre d'hote par SR: " + str(nbHostbySR))
+        numberOfSubnet5.config( text="Decoupe sur base du nombre d'hote par SR\nNombre total de SR: " + str(nbSRbyHost))
+    except ValueError:
+        loginErrorex5.config( text="Seul les nombres sont acceptés")
 
 
 def callbackIPV4(event, input):
@@ -125,6 +127,16 @@ def callbackMask(even, mask):
     except ValueError:
         mask.config({"background": backgroundColorIncorrect})
 
+def callbackMaskExo2(event, mask):
+
+    try:
+        ipaddress.IPv4Network('0.0.0.0/'+mask.get()).is_private
+        if (len(Mask2.get()) > 2 ): mask.config({"background": backgroundColorCorrect})
+        
+        
+    except ValueError:
+        mask.config({"background": backgroundColorIncorrect})
+
 
 
 def callbacknbSR5(event):
@@ -134,8 +146,12 @@ def callbacknbSR5(event):
     hostEntries.clear()
     
     for i in range(int(nbSR5.get())):
-        e = Entry( font=("Arial" , 15), master=exercice5, background= backgroundColorIncorrect)
-        e.grid(row=3+i,column=1, padx=10, pady=10)
+        e = Entry( font=("Arial" , 15), master=exercice5Center)
+        if(i%2 ==0):
+            e.grid(row=4+i,column=1, padx=10, pady=10)
+        else:
+            e.grid(row=4+i-1,column=2, padx=10, pady=10)
+        
         hostEntries.append(e)
 
 
@@ -230,12 +246,12 @@ IP2.grid(row=1, column=1, padx=10, pady=10)
 #Mask2 entry
 ttk.Label(font=("Arial", 15),master=exercice2Center, text="Masque").grid(row=2,column=0, padx=10, pady=10)
 Mask2 = Entry( font=("Arial" , 15), master=exercice2Center, background=backgroundColorIncorrect)
-Mask2.bind("<KeyRelease>", lambda event : callbackMask(event, Mask2)) 
+Mask2.bind("<KeyRelease>", lambda event : callbackMaskExo2(event, Mask2)) 
 Mask2.grid(row=2,column=1, padx=10, pady=10)
 
 ttk.Button(exercice2Center, text="Calculer", command=resultExo2, style="my.TButton").grid(row=3, column=0, padx=10, pady=10)
-loginErrorex2 = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
-loginErrorex2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
+errorEx2 = ttk.Label(font=("Arial", 15),master=exercice2Center, text="")
+errorEx2.grid(row=3, column=2, pady=10, padx=10, sticky="w")
 
 # Network adress
 networkAdressResult = ttk.Label(font=("Arial", 15),master=exercice2Center, text="Adresse de réseau: ")
@@ -332,44 +348,47 @@ exercice4Result2.grid(row=5,column=0, pady=10, padx=10, sticky="w", columnspan=5
 ####### Exercice5 #######
 exercice5 =ttk.Frame(globalFrame)
 exercice5.grid(row=0, column=0, sticky=N+S+W+E)
+exercice5Center = ttk.Frame(exercice5)
+exercice5Center.pack(anchor="n", expand=True)
 ttk.Button(exercice5, text="Retour", command=lambda: display(menuFrame), style="my.TButton").place(x=1150,y=0)
 
-ttk.Button(exercice5, text="Calculer", command=resultExo5, style="my.TButton").grid(column=3,row=0)
-loginErrorex5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
+ttk.Button(exercice5Center, text="Calculer", command=resultExo5, style="my.TButton").grid(column=2,row=1)
+loginErrorex5 = ttk.Label(font=("Arial", 15),master=exercice5Center, text="")
 loginErrorex5.grid(row=1, column=3, pady=10, padx=10, sticky="w")
 
 #Ip5 entry
-ttk.Label(font=("Arial", 15),master=exercice5, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
-IP5 = Entry( font=("Arial" , 15), master=exercice5, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice5Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
+IP5 = Entry( font=("Arial" , 15), master=exercice5Center, background=backgroundColorIncorrect)
 IP5.bind("<KeyRelease>", lambda event : callbackIPV4(event, IP5))
 IP5.grid(row=1, column=1, padx=10, pady=10)
 
 #Mask5 entry
-ttk.Label(font=("Arial", 15),master=exercice5, text="Masque").grid(row=2,column=0, padx=10, pady=10)
-Mask5 = Entry( font=("Arial" , 15), master=exercice5, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice5Center, text="Masque").grid(row=2,column=0, padx=10, pady=10)
+Mask5 = Entry( font=("Arial" , 15), master=exercice5Center, background=backgroundColorIncorrect)
 Mask5.bind("<KeyRelease>", lambda event : callbackMask(event, Mask5)) 
 Mask5.grid(row=2,column=1, padx=10, pady=10)
 
 
 hostEntries = []
 # number of subnet entry
-ttk.Label(font=("Arial", 15),master=exercice5, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
-nbSR5 = Entry( font=("Arial" , 15), master=exercice5, background=backgroundColorIncorrect)
+ttk.Label(font=("Arial", 15),master=exercice5Center, text="Nombre de sous-réseau").grid(row=3,column=0, padx=10, pady=10)
+nbSR5 = Entry( font=("Arial" , 15), master=exercice5Center)
 nbSR5.bind("<KeyRelease>", callbacknbSR5) 
-nbSR5.grid(row=3,column=0, padx=10, pady=10)
+nbSR5.grid(row=3,column=1, padx=10, pady=10)
 nbSR5.insert(0, '0')
+ttk.Label(font=("Arial", 15),master=exercice5Center, text="Nombre d'hote:").grid(row=4,column=0, padx=10, pady=10)
 
 # total number of host5
 totalNumberOfHost5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-totalNumberOfHost5.grid(row=1, column=3, padx=10, pady=10)
+totalNumberOfHost5.pack(anchor="center")
 
 #number of host by subnet5
 numberOfHostBySub5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-numberOfHostBySub5.grid(row=2, column=3, padx=10, pady=10)
+numberOfHostBySub5.pack(anchor="center")
 
 # number of subnet5
 numberOfSubnet5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-numberOfSubnet5.grid(row=3, column=3, padx=10, pady=10)
+numberOfSubnet5.pack(anchor="center")
 
 
 ####### MenuFrame #######
