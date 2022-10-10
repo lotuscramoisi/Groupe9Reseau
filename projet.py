@@ -20,7 +20,7 @@ def resultExo1():
     loginErrorex1.config(text="")
     classResult.config(text= "Classe: ")
     numberOfNetworkResult.config( text="Nombre de réseaux: ")
-    numberOfHostResult.config( text="Nombre d'hotes: ")
+    numberOfHostResult.config( text="Nombre d'hôtes: ")
     
     ip = strIpAndMaskToTab(IP1.get())
     
@@ -32,7 +32,7 @@ def resultExo1():
    
     # information display
     numberOfNetworkResult.config(text= "Nombre de réseaux: "+ str(info["nbNetwork"]))
-    numberOfHostResult.config(text= "Nombre d'hotes: "+ str(info["nbHost"]))
+    numberOfHostResult.config(text= "Nombre d'hôtes: "+ str(info["nbHost"]))
 
 def resultExo2():
     if((IP2["background"]== backgroundColorIncorrect) or (Mask2["background"]== backgroundColorIncorrect)):
@@ -76,8 +76,8 @@ def resultExo3():
     #network creation
     net = ipaddress.IPv4Network(IP3.get() + "/"+ Mask3.get(), False)
     # Tell user if the ip/mask combination is in the network he entered
-    if(networkAdressCheck(net, Network3.get())): isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " appartient au reseau " + Network3.get())
-    else: isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " n'appartient pas au reseau " + Network3.get())
+    if(networkAdressCheck(net, Network3.get())): isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " appartient au réseau " + Network3.get())
+    else: isSecondIpInFirstNetwork.config(text="L'ip " + IP3.get() + " n'appartient pas au réseau " + Network3.get())
 
 def resultExo4():
     if((IP4["background"]== backgroundColorIncorrect) | (Mask4["background"]== backgroundColorIncorrect) | (secondIP4["background"]== backgroundColorIncorrect) | (secondMask4["background"]== backgroundColorIncorrect)):
@@ -98,9 +98,9 @@ def resultExo5():
     try:
         nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()), list(map(lambda e: int(e.get()), hostEntries)))
         nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
-        totalNumberOfHost5.config( text="Nombre total d'hote : " + str(totalHost))
-        numberOfHostBySub5.config( text="Decoupe sur base du nombre de SR\nNombre d'hote par SR: " + str(nbHostbySR))
-        numberOfSubnet5.config( text="Decoupe sur base du nombre d'hote par SR\nNombre total de SR: " + str(nbSRbyHost))
+        totalNumberOfHost5.config( text="Nombre total d'hôte : " + str(totalHost))
+        numberOfHostBySub5.config( text="Découpe sur base du nombre de SR\nNombre d'hôte par SR: " + str(nbHostbySR))
+        numberOfSubnet5.config( text="Découpe sur base du nombre d'hôte par SR\nNombre total de SR: " + str(nbSRbyHost))
     except ValueError:
         loginErrorex5.config( text="Seul les nombres sont acceptés")
 
@@ -222,7 +222,7 @@ classResult.pack(fill="x", padx=5, pady=5)
 numberOfNetworkResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Nombre de réseaux: ")
 numberOfNetworkResult.pack(fill="x", padx=5, pady=5)
 # Number of Host
-numberOfHostResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Nombre d'hotes: ")
+numberOfHostResult = ttk.Label(font=("Arial", 15),master=exercice1Center, text="Nombre d'hôtes: ")
 numberOfHostResult.pack(fill="x", padx=5, pady=5)
 
 
@@ -372,19 +372,19 @@ nbSR5 = Entry( font=("Arial" , 15), master=exercice5Center)
 nbSR5.bind("<KeyRelease>", callbacknbSR5) 
 nbSR5.grid(row=3,column=1, padx=10, pady=10)
 nbSR5.insert(0, '0')
-ttk.Label(font=("Arial", 15),master=exercice5Center, text="Nombre d'hote:").grid(row=4,column=0, padx=10, pady=10)
+ttk.Label(font=("Arial", 15),master=exercice5Center, text="Nombre d'hôte:").grid(row=4,column=0, padx=10, pady=10)
 
 # total number of host5
 totalNumberOfHost5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-totalNumberOfHost5.pack(anchor="center")
+totalNumberOfHost5.pack(anchor="nw", padx=5, pady=5)
 
 #number of host by subnet5
 numberOfHostBySub5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-numberOfHostBySub5.pack(anchor="center")
+numberOfHostBySub5.pack(anchor="nw", padx=5, pady=5)
 
 # number of subnet5
 numberOfSubnet5 = ttk.Label(font=("Arial", 15),master=exercice5, text="")
-numberOfSubnet5.pack(anchor="center")
+numberOfSubnet5.pack(anchor="nw", padx=5, pady=5)
 
 
 ####### MenuFrame #######

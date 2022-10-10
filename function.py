@@ -121,19 +121,19 @@ def networkAdressCheck(network, netAdress):
 def crossNetworkCheck(ip1, mask1, ip2, mask2):
     #intialisation des resultat 
     result = []
-    #creation des 2 reseau
+    #creation des 2 réseau
     net1 = ipaddress.IPv4Network(ip1 + "/" + mask1, False)
     net2 = ipaddress.IPv4Network(ip2 + "/" + mask2, False)
     
     if(ipaddress.ip_address(ip2) in net1):
-        result.append("Le reseau " + ip1 + "/" + mask1 + " considère que l'ip " + ip2 + " est dans son reseau")
+        result.append("Le réseau " + ip1 + "/" + mask1 + " considère que l'ip " + ip2 + " est dans son réseau")
     else:
-        result.append("Le reseau " + ip1 + "/" + mask1 + " considère que l'ip " +  ip2 + " n'est pas dans son reseau")
+        result.append("Le réseau " + ip1 + "/" + mask1 + " considère que l'ip " +  ip2 + " n'est pas dans son réseau")
     
     if(ipaddress.ip_address(ip1) in net2):
-        result.append("Le reseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " est dans son reseau")
+        result.append("Le réseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " est dans son réseau")
     else:
-        result.append("Le reseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " n'est pas dans son reseau")
+        result.append("Le réseau " + ip2 + "/" + mask2 + " considère que l'ip " +  ip1 +  " n'est pas dans son réseau")
     
     return result
 
@@ -146,7 +146,7 @@ def subnetingByNbSR(nbHostTot, nbSR, nbHostBySR):
     
     nbHostBySR = math.floor(nbHostTot / nbSR)
     if(nbHostBySR >= 4): return nbHostBySR
-    return "On ne peux pas réaliser de decoupe classique sur base du nombre de SR avec ces informations"
+    return "On ne peux pas réaliser de découpe classique\nsur base du nombre de SR avec ces informations"
     
      
 
@@ -156,7 +156,7 @@ def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
     maxHost = max(nbHostBySR)
     nbSRTot = math.floor(nbHostTot/maxHost)
     if(nbSRTot >= len(nbHostBySR)): return nbSRTot
-    return "On ne peux pas réaliser de decoupe classique sur base du nombre d'IP par SR avec ces informations"
+    return "On ne peux pas réaliser de découpe classique\nsur base du nombre d'IP par SR avec ces informations"
     
 
 
