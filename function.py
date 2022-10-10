@@ -79,10 +79,10 @@ def getInfoByClass(classOfIp):
         info["nbHost"] = (2**8) - 2
     elif(classOfIp =="D"):
         info["nbNetwork"] = "N/A"
-        info["nbHost"] = "Multicasting"
+        info["nbHost"] = "  "
     elif(classOfIp =="E"):
         info["nbNetwork"] = "N/A"
-        info["nbHost"] = "Reserved/Experimental"
+        info["nbHost"] = "Réservé/Expérimental"
         
     return info
 
