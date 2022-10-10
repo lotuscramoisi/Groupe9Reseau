@@ -350,7 +350,7 @@ ttk.Button(exercice5, text="Retour", command=lambda: display(menuFrame), style="
 
 ttk.Button(exercice5Center, text="Calculer", command=resultExo5, style="my.TButton").grid(column=2,row=1)
 loginErrorex5 = ttk.Label(font=("Arial", 15),master=exercice5Center, text="")
-loginErrorex5.grid(row=1, column=3, pady=10, padx=10, sticky="w")
+loginErrorex5.grid(row=2, column=2, pady=10, padx=10, sticky="w")
 
 #Ip5 entry
 ttk.Label(font=("Arial", 15),master=exercice5Center, text="IPV4").grid(row=1,column=0, padx=10, pady=10)
