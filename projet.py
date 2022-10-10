@@ -133,6 +133,10 @@ def callbackMaskExo2(event, mask):
 
 def callbacknbSR5(event):
     OnlyNumbersCallback(nbSR5)
+    try:
+        if(int(nbSR5.get())<0):return
+    except ValueError: return
+        
     for entry in hostEntries:
         entry.destroy()
     hostEntries.clear()
