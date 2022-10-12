@@ -96,8 +96,8 @@ def resultExo5():
     loginErrorex5.config(text="")
     totalHost = getNbHostTot(Mask5.get())
     try:
-        nbHostbySR = subnetingByNbSR(totalHost, int(nbSR5.get()), list(map(lambda e: int(e.get()), hostEntries)))
-        nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)))
+        nbHostbySR = subnetingByNbSR( int(nbSR5.get()), Mask5.get())
+        nbSRbyHost = subnetingByNbHostPerSR(totalHost, list(map(lambda e: int(e.get()), hostEntries)), Mask5.get())
         totalNumberOfHost5.config( text="Nombre total d'hôte : " + str(totalHost))
         numberOfHostBySub5.config( text="Découpe sur base du nombre de SR\nNombre d'hôte par SR: " + str(nbHostbySR))
         numberOfSubnet5.config( text="Découpe sur base du nombre d'hôte par SR\nNombre total de SR: " + str(nbSRbyHost))

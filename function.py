@@ -139,24 +139,67 @@ def crossNetworkCheck(ip1, mask1, ip2, mask2):
 
 
     
-def subnetingByNbSR(nbHostTot, nbSR, nbHostBySR):
+def subnetingByNbSR(nbSR, mask):
     
-    if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
-    maxHost = max(nbHostBySR)
-    
-    nbHostBySR = math.floor(nbHostTot / nbSR)
-    if(nbHostBySR >= 4): return nbHostBySR
+    #if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
+
+    nbExposant = 1
+    while(nbSR > (2**nbExposant)):
+        nbExposant += 1
+
+    if(len(mask) <= 2):
+        nbZeroInsindeMask = 32-(int(mask) + nbExposant)
+        nbHostBySR = 2**nbZeroInsindeMask -2
+        if(nbHostBySR >=2): return str(nbHostBySR)+ "(+2 avec adresse de broadcast et réseau)"
+    else:
+        maskTab = strIpAndMaskToTab(mask)
+        nbZeroInsindeMask = 0
+        for oct in maskTab:
+            nbZeroInsindeMask += str(decimalTobinary(oct)).count('0')
+        nbHostBySR = 2**(nbZeroInsindeMask-nbExposant)-2
+        if(nbHostBySR >= 2):return str(nbHostBySR) + "(+2 avec adresse de broadcast et réseau" 
+
     return "On ne peux pas réaliser de découpe classique\nsur base du nombre de SR avec ces informations"
+
+    
+def getNumberOfOneInsideMask(mask):
+    maskTab = strIpAndMaskToTab(mask)
+    nbZeroInsindeMask = 0
+    for oct in maskTab:
+        nbZeroInsindeMask += str(decimalTobinary(oct)).count('0')
+    return 32-nbZeroInsindeMask
     
      
 
-def subnetingByNbHostPerSR(nbHostTot, nbHostBySR):
+def subnetingByNbHostPerSR(nbHostTot, nbHostBySR, mask):
    
     if(len(nbHostBySR) <= 0) :return "Veuillez remplir tout les champs"
     maxHost = max(nbHostBySR)
-    nbSRTot = math.floor(nbHostTot/maxHost)
-    if(nbSRTot >= len(nbHostBySR)): return nbSRTot
+
+
+    nbExposant = 1
+    while(maxHost > (2**nbExposant)-2):
+        nbExposant += 1
+
+    print(nbExposant, "=>nbExposant")
+    if(len(mask) <=2):
+        OneAdded = 32 - (int(mask) + nbExposant)
+       
+        if(OneAdded >= 2): return str(2**OneAdded-1)+ "(+1 réseau non utilisable)"
+        
+    else:
+        OneAdded = 32 - (getNumberOfOneInsideMask(mask) + nbExposant)
+        print(OneAdded + getNumberOfOneInsideMask(mask))
+        if(OneAdded >= 2): return str(2**OneAdded-1)+ "(+1 réseau non utilisable)"
+
+    
     return "On ne peux pas réaliser de découpe classique\nsur base du nombre d'IP par SR avec ces informations"
+    
+
+    
+
+    
+   
     
 
 
